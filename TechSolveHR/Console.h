@@ -1,14 +1,21 @@
 #pragma once
 #pragma execution_character_set("utf-8")
 
-#include "Console.h"
-
 #include <algorithm>
+#include <conio.h>
 #include <iostream>
 #include <iterator>
 #include <sstream>
 #include <string>
 #include <Windows.h>
+
+#define KEY_UP    72
+#define KEY_LEFT  75
+#define KEY_RIGHT 77
+#define KEY_DOWN  80
+#define KEY_ENTER 13
+#define KEY_ESC   27
+#define BACKSPACE 8
 
 enum ConsoleColor
 {
@@ -116,6 +123,48 @@ inline std::string ChangeColor(const Color color, const GroundType type)
             return "\033[38;2;" + r + ";" + g + ";" + b + "m";
         case GroundType::Back:
             return "\033[48;2;" + r + ";" + g + ";" + b + "m";
+    }
+
+    return "";
+}
+
+/*! note: delimiter cannot contain NUL characters
+ */
+template <typename Range, typename Value = typename Range::value_type>
+std::string Join(Range const& elements, const char* const delimiter)
+{
+    std::ostringstream os;
+    auto b = begin(elements), e = end(elements);
+
+    if (b != e)
+    {
+        std::copy(b, prev(e), std::ostream_iterator<Value>(os, delimiter));
+        b = prev(e);
+    }
+    if (b != e)
+    {
+        os << *b;
+    }
+
+    return os.str();
+}
+
+/*! note: imput is assumed to not contain NUL characters
+ */
+template <typename Input, typename Output, typename Value = typename Output::value_type>
+void Split(char delimiter, Output& output, Input const& input)
+{
+    using namespace std;
+    for (auto cur = begin(input), beg = cur; ; ++cur)
+    {
+        if (cur == end(input) || *cur == delimiter || !*cur)
+        {
+            output.insert(output.end(), Value(beg, cur));
+            if (cur == end(input) || !*cur)
+                break;
+            else
+                beg = next(cur);
+        }
     }
 }
 

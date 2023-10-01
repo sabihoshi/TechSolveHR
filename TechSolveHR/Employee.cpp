@@ -2,13 +2,22 @@
 
 #include "Employee.h"
 
-#include <iostream>
 #include "console.h"
+#include "LeaveData.h"
 
-void Employee::personalInfoMenu()
+void Employee::PersonalInfoMenu()
 {
-    COORD top = { 24, 11 };
+    PersonalData.EditData();
+    Clear(ClearType::Screen);
+    EmergencyData.EditData();
+    Clear(ClearType::Screen);
+    WorkData.EditData();
+}
 
+void Employee::LeaveMenu()
+{
+    Clear(ClearType::Screen);
+    XY(0, 0);
     std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
     std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
     std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
@@ -17,45 +26,48 @@ void Employee::personalInfoMenu()
     std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
     std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-    std::cout << "║                     Personal Information                   ║" << std::endl;
-    std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║      Full legal Name:                                      ║" << std::endl; // 24, 11
     std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║               Gender:                                      ║" << std::endl;
+    std::cout << "║                   [1] - Sick Leave                         ║" << std::endl;
+    std::cout << "║                   [2] - Vacation Leave                     ║" << std::endl;
+    std::cout << "║                   [3] - Leave List                         ║" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║       Marital Status:                                      ║" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║              Address:                                      ║" << std::endl;
-    std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║                  TIN:                                      ║" << std::endl;
-    std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║           PhilHealth:                                      ║" << std::endl;
-    std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║                  SSS:                                      ║" << std::endl;
-    std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║                Phone:                                      ║" << std::endl;
-    std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║         Social Links:                                      ║" << std::endl;
+    std::cout << "║                     >                                      ║" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
     std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
 
-    // Fill up existing data
-    XY(24, 11);
+    XY(24, 15);
+    int leaveOption;
+    std::cin >> leaveOption;
 
-    std::cout << _lastName << ", " << _firstName << " " << _middleName;
-    MoveCursor(CursorDirection::Down, 2);
+    Clear(ClearType::Screen);
+    XY(0, 0);
 
-    std::cout << _gender;
-    MoveCursor(CursorDirection::Down, 2);
+    LeaveData leave;
+    switch (leaveOption)
+    {
+        case 1:
+            leave.Type = "Sick";
+            break;
+        case 2:
+            leave.Type = "Vacation";
+            break;
+        case 3:
+            PrintLeaveData();
+            return;
+        default:
+            break;
+    }
 
+    leave.EditData();
+    Leaves.push_back(leave);
+}
 
-
-
-
-
-    fflush(stdin);
-    system("cls");
+void Employee::PrintLeaveData()
+{
+    Clear(ClearType::Screen);
+    XY(0, 0);
     std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
     std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
     std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
@@ -64,33 +76,323 @@ void Employee::personalInfoMenu()
     std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
     std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-    std::cout << "║                          Emergency                         ║" << std::endl;
+    std::cout << "║   Starting Date  |   End Date    |   Type    |   Status    ║" << std::endl;
     std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-    std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║                 Name:                                      ║" << std::endl;
-    std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║         Relationship:                                      ║" << std::endl;
-    std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║                Phone:                                      ║" << std::endl;
-    std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║                Email:                                      ║" << std::endl;
-    std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║              Address:                                      ║" << std::endl;
-    std::cout << "║                                                            ║" << std::endl;
+
+    for (auto& leave : Leaves)
+    {
+        std::cout
+            << "║ " << Center(leave.StartDate, 16) << " | "
+            << Center(leave.EndDate, 14) << " | "
+            << Center(leave.Type, 10) << " | "
+            << Center(leave.Status, 10) << " ║"
+            << std::endl;
+    }
+
     std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
-    ypos = yposoverride;
-    XY(xpos1, ypos += 2);
-    std::cin >> name2;
-    XY(xpos1, ypos += 2);
-    std::cin >> relationship;
-    XY(xpos1, ypos += 2);
-    std::cin >> phone2;
-    XY(xpos1, ypos += 2);
-    std::cin >> email;
-    XY(xpos1, ypos += 2);
-    std::cin >> address2;
-    fflush(stdin);
-    system("cls");
+}
+
+void Employee::DocumentMenu()
+{
+    //while (extinput2 != 4)
+    //{
+    //    std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+    //    std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+    //    std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+    //    std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+    //    std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+    //    std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+    //    std::cout << "║                                                            ║" << std::endl;
+    //    std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    //    std::cout << "║        ╔═══════════════════════════════════════════╗       ║" << std::endl;
+    //    std::cout << "║        ║           Employee Information            ║       ║" << std::endl;
+    //    std::cout << "║        ║                                           ║       ║" << std::endl;
+    //    std::cout << "║        ║       Name:                               ║       ║" << std::endl;
+    //    std::cout << "║        ║ Department:                               ║       ║" << std::endl; // add function: left and right keys to scroll through possible options
+    //    std::cout << "║        ║    Manager:                               ║       ║" << std::endl; // complexities: view performance feedback using dates
+    //    std::cout << "║        ║                                           ║       ║" << std::endl;
+    //    std::cout << "║        ╚═══════════════════════════════════════════╝       ║" << std::endl;
+    //    std::cout << "║                                                            ║" << std::endl;
+    //    std::cout << "║               [1] - Employee Assessment                    ║" << std::endl;
+    //    std::cout << "║               [2] - Request Performance Feedback           ║" << std::endl;
+    //    std::cout << "║               [3] - View Performance Feedback              ║" << std::endl;
+    //    std::cout << "║               [4] - Back                                   ║" << std::endl;
+    //    std::cout << "║                                                            ║" << std::endl;
+    //    std::cout << "║                     >                                      ║" << std::endl;
+    //    std::cout << "║                                                            ║" << std::endl;
+    //    std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+    //    XY(22, 11);
+    //    std::cin >> extinput;
+    //    XY(22, 12);
+    //    std::cin >> extinput;
+    //    XY(22, 13);
+    //    std::cin >> extinput;
+    //    XY(25, 22);
+    //    std::cin >> extinput2;
+    //    fflush(stdin);
+    //    system("cls");
+    //    switch (extinput2)
+    //    {
+    //        case 1:
+    //            std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+    //            std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+    //            std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+    //            std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+    //            std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+    //            std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    //            std::cout << "║        ╔═══════════════════════════════════════════╗       ║" << std::endl;
+    //            std::cout << "║        ║           Employee Information            ║       ║" << std::endl;
+    //            std::cout << "║        ║                                           ║       ║" << std::endl;
+    //            std::cout << "║        ║       Name:                               ║       ║" << std::endl;
+    //            std::cout << "║        ║ Department:                               ║       ║" << std::endl;
+    //            std::cout << "║        ║    Manager:                               ║       ║" << std::endl;
+    //            std::cout << "║        ║                                           ║       ║" << std::endl;
+    //            std::cout << "║        ╚═══════════════════════════════════════════╝       ║" << std::endl;
+    //            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    //            std::cout << "║  Job Knowledge             ║                               ║" << std::endl;
+    //            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    //            std::cout << "║  Work Quality              ║                               ║" << std::endl;
+    //            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    //            std::cout << "║  Punctuality               ║                               ║" << std::endl;
+    //            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    //            std::cout << "║  Productivity              ║                               ║" << std::endl;
+    //            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    //            std::cout << "║  Communication Skills      ║                               ║" << std::endl;
+    //            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    //            std::cout << "║  Overall Rating:           ║                               ║" << std::endl;
+    //            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    //            std::cout << "║ Comments:                                                  ║" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "║                                    Use UP/DOWN to navigate.║" << std::endl;
+    //            std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+    //            extinput2 = 0;
+    //            _getch();
+    //            fflush(stdin);
+    //            system("cls");
+    //            break;
+    //        case 2:
+    //            std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+    //            std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+    //            std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+    //            std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+    //            std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+    //            std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "║                 Choose HR/Manager to Request:              ║" << std::endl;
+    //            std::cout << "║               [1] - exampleHr1                             ║" << std::endl;
+    //            std::cout << "║               [2] - exampleHr2                             ║" << std::endl;
+    //            std::cout << "║               [3] - Back                                   ║" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "║                    >                                       ║" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+    //            XY(23, 15);
+    //            std::cin >> extinput3;
+    //            fflush(stdin);
+    //            system("cls");
+    //            switch (extinput3)
+    //            {
+    //                case 1:
+    //                    std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+    //                    std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+    //                    std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+    //                    std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+    //                    std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+    //                    std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+    //                    std::cout << "║                                                            ║" << std::endl;
+    //                    std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    //                    std::cout << "║                                                            ║" << std::endl; //placeholders should contain their respective prompts  
+    //                    std::cout << "║       You have requested for a performance feedback.       ║" << std::endl;
+    //                    std::cout << "║                       HR:placeholder                       ║" << std::endl;
+    //                    std::cout << "║                     DATE:placeholder                       ║" << std::endl;
+    //                    std::cout << "║                                                            ║" << std::endl;
+    //                    std::cout << "║                 [press a key to continue]                  ║" << std::endl;
+    //                    std::cout << "║                                                            ║" << std::endl;
+    //                    std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+    //                    _getch();
+    //                    fflush(stdin);
+    //                    extinput3 = 0;
+    //                    system("cls");
+    //                    break;
+    //                case 2:
+    //                    std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+    //                    std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+    //                    std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+    //                    std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+    //                    std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+    //                    std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+    //                    std::cout << "║                                                            ║" << std::endl;
+    //                    std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    //                    std::cout << "║                                                            ║" << std::endl; //placeholders should contain their respective prompts  
+    //                    std::cout << "║       You have requested for a performance feedback.       ║" << std::endl;
+    //                    std::cout << "║                       HR:placeholder                       ║" << std::endl;
+    //                    std::cout << "║                     DATE:placeholder                       ║" << std::endl;
+    //                    std::cout << "║                                                            ║" << std::endl;
+    //                    std::cout << "║                 [press a key to continue]                  ║" << std::endl;
+    //                    std::cout << "║                                                            ║" << std::endl;
+    //                    std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+    //                    _getch();
+    //                    fflush(stdin);
+    //                    extinput3 = 0;
+    //                    system("cls");
+    //                    break;
+    //                case 3:
+    //                    extinput3 = 0;
+    //                    system("cls");
+    //                    break;
+    //                default:
+    //                    std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+    //                    std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+    //                    std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+    //                    std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+    //                    std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+    //                    std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+    //                    std::cout << "║                                                            ║" << std::endl;
+    //                    std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    //                    std::cout << "║                |    LOGIN SYSTEM MENU   |                  ║" << std::endl;
+    //                    std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    //                    std::cout << "║                                                            ║" << std::endl;
+    //                    std::cout << "║                                                            ║" << std::endl;
+    //                    std::cout << "║                      Invalid Entry!                        ║" << std::endl;
+    //                    std::cout << "║               [Press any key to try again]                 ║" << std::endl;
+    //                    std::cout << "║                                                            ║" << std::endl;
+    //                    std::cout << "║                                                            ║" << std::endl;
+    //                    std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+    //                    _getch();
+    //                    system("cls");
+    //                    break;
+    //            }
+    //            break;
+    //        case 3:
+    //            std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+    //            std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+    //            std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+    //            std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+    //            std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+    //            std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    //            std::cout << "║  Job Knowledge             ║                               ║" << std::endl;
+    //            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    //            std::cout << "║  Work Quality              ║                               ║" << std::endl;
+    //            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    //            std::cout << "║  Punctuality               ║                               ║" << std::endl;
+    //            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl; //Meant to access your accounts feedback from other employees
+    //            std::cout << "║  Productivity              ║                               ║" << std::endl; //This should show multiple assessments from other employees
+    //            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl; //Controls: User can use up or down arrow to navigate through their feedback
+    //            std::cout << "║  Communication Skills      ║                               ║" << std::endl;
+    //            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    //            std::cout << "║  Overall Rating:           ║                               ║" << std::endl;
+    //            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    //            std::cout << "║ Comments:                                                  ║" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "║ Press any key to continue...       Use UP/DOWN to navigate.║" << std::endl;
+    //            std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+    //            _getch();
+    //            system("cls");
+    //            break;
+    //        case 4:
+    //            system("cls");
+    //            break;
+    //        default:
+    //            std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+    //            std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+    //            std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+    //            std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+    //            std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+    //            std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    //            std::cout << "║                |    LOGIN SYSTEM MENU   |                  ║" << std::endl;
+    //            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "║                      Invalid Entry!                        ║" << std::endl;
+    //            std::cout << "║               [Press any key to try again]                 ║" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "║                                                            ║" << std::endl;
+    //            std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+    //            _getch();
+    //            extinput2 = 0;
+    //            fflush(stdin);
+    //            system("cls");
+    //            break;
+    //    }
+    /*
+        following fields should take inputs from the user
+        inputs provided would be saved as the employee's performance
+    */
+    // std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+    // std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+    // std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+    // std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+    // std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+    // std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+    // std::cout << "║                                                            ║" << std::endl;
+    // std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    // std::cout << "║        ╔═══════════════════════════════════════════╗       ║" << std::endl;
+    // std::cout << "║        ║           Employee Information            ║       ║" << std::endl;
+    // std::cout << "║        ║                                           ║       ║" << std::endl;
+    // std::cout << "║        ║       Name:                               ║       ║" << std::endl;
+    // std::cout << "║        ║ Department:                               ║       ║" << std::endl;
+    // std::cout << "║        ║    Manager:                               ║       ║" << std::endl;
+    // std::cout << "║        ║                                           ║       ║" << std::endl;
+    // std::cout << "║        ╚═══════════════════════════════════════════╝       ║" << std::endl;
+    // std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    // std::cout << "║  Job Knowledge             ║                               ║" << std::endl;
+    // std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    // std::cout << "║  Work Quality              ║                               ║" << std::endl;
+    // std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    // std::cout << "║  Punctuality               ║                               ║" << std::endl;
+    // std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    // std::cout << "║  Productivity              ║                               ║" << std::endl;
+    // std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    // std::cout << "║  Communication Skills      ║                               ║" << std::endl;
+    // std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    // std::cout << "║  Overall Rating:           ║                               ║" << std::endl;
+    // std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    // std::cout << "║ Comments:                                                  ║" << std::endl;
+    // std::cout << "║                                                            ║" << std::endl;
+    // std::cout << "║                                                            ║" << std::endl;
+    // std::cout << "║                                                            ║" << std::endl;
+    // std::cout << "║                                                            ║" << std::endl;
+    // std::cout << "║                                                            ║" << std::endl;
+    // std::cout << "║                                                            ║" << std::endl;
+    // std::cout << "║                                                            ║" << std::endl;
+    // std::cout << "║                                                            ║" << std::endl;
+    // std::cout << "║                                                            ║" << std::endl;
+    // std::cout << "║ Press any key to continue...       Use UP/DOWN to navigate.║" << std::endl;
+    // std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+    // _getch();
+    // fflush(stdin);
+    // system("cls");
+}
+
+void Employee::OvertimeMenu()
+{
+    Clear(ClearType::Screen);
+    XY(0, 0);
     std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
     std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
     std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
@@ -99,45 +401,68 @@ void Employee::personalInfoMenu()
     std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
     std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-    std::cout << "║                            Work                            ║" << std::endl;
+    std::cout << "║                 |    OVERTIME RECORDS   |                  ║" << std::endl;
     std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║            Hire Date:                                      ║" << std::endl;
+    std::cout << "║               [1] - Add Record                             ║" << std::endl;
+    std::cout << "║               [2] - View Records                           ║" << std::endl;
+    std::cout << "║               [3] - Back                                   ║" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║           Employee #:                                      ║" << std::endl;
-    std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║                 Role:                                      ║" << std::endl;
-    std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║           Department:                                      ║" << std::endl;
-    std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║             Division:                                      ║" << std::endl;
-    std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║             Location:                                      ║" << std::endl;
-    std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║              Manager:                                      ║" << std::endl;
-    std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║                 Use Up/Down to Navigate.                   ║" << std::endl;
-    std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║ [1] Exit without Saving                 [2] Exit and Save  ║" << std::endl;
+    std::cout << "║                 >                                          ║" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
     std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
-    ypos = yposoverride;
-    XY(xpos1, ypos += 2);
-    std::cin >> hireDate;
-    XY(xpos1, ypos += 2);
-    std::cin >> employeeNumber;
-    XY(xpos1, ypos += 2);
-    std::cin >> role;
-    XY(xpos1, ypos += 2);
-    std::cin >> department;
-    XY(xpos1, ypos += 2);
-    std::cin >> division;
-    XY(xpos1, ypos += 2);
-    std::cin >> location;
-    XY(xpos1, ypos += 2);
-    std::cin >> manager;
-    fflush(stdin);
-    system("cls");
+
+    XY(20, 15);
+    int overtimeOption;
+    std::cin >> overtimeOption;
+
+    Clear(ClearType::Screen);
+    XY(0, 0);
+    switch (overtimeOption)
+    {
+        case 1:
+        {
+            OvertimeData overtime;
+            overtime.EditData();
+
+            Overtimes.push_back(overtime);
+            break;
+        }
+        case 2:
+        {
+            std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+            std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+            std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+            std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+            std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+            std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+            std::cout << "║                                                            ║" << std::endl;
+            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+            std::cout << "║  Time In  |  Time Out  |  Amount  |  Type  |    Reason     ║" << std::endl;
+            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+
+            for (auto& overtime : Overtimes)
+            {
+                std::cout
+                    << "║ " << Center(overtime.TimeIn, 9)
+                    << " | " << Center(overtime.TimeOut, 10)
+                    << " | " << Center(overtime.Amount, 8)
+                    << " | " << Center(overtime.Type, 7)
+                    << " | " << Center(overtime.Reason, 14) << " ║"
+                    << std::endl;
+            }
+
+            std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+            break;
+        }
+        case 3:
+            return;
+        default:
+            OvertimeMenu();
+    }
+}
+
+bool Employee::operator==(const Employee& other) const
+{
+    return WorkData.EmployeeId == other.WorkData.EmployeeId;
 }

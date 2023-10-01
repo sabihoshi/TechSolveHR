@@ -1,10 +1,10 @@
-﻿#include "EmergencyData.h"
+﻿#include "WorkData.h"
 
 #include <iostream>
 
 #include "console.h"
 
-void EmergencyData::PrintData()
+void WorkData::PrintData()
 {
     Clear(ClearType::Screen);
     XY(0, 0);
@@ -16,18 +16,22 @@ void EmergencyData::PrintData()
     std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
     std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-    std::cout << "║                          Emergency                         ║" << std::endl;
+    std::cout << "║                            Work                            ║" << std::endl;
     std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║                 Name:                                      ║" << std::endl;
+    std::cout << "║            Hire Date:                                      ║" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║         Relationship:                                      ║" << std::endl;
+    std::cout << "║           Employee #:                                      ║" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║                Phone:                                      ║" << std::endl;
+    std::cout << "║                 Role:                                      ║" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║                Email:                                      ║" << std::endl;
+    std::cout << "║           Department:                                      ║" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║              Address:                                      ║" << std::endl;
+    std::cout << "║             Division:                                      ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║             Location:                                      ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║              Manager:                                      ║" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
     std::cout << "║                 Use Up/Down to Navigate.                   ║" << std::endl;
@@ -37,13 +41,14 @@ void EmergencyData::PrintData()
     std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
 }
 
-void EmergencyData::EditData()
+void WorkData::EditData()
 {
     PrintData();
 
-    const std::vector data = {
-        &Name, &Relationship, &PhoneNumber,
-        &EmailAddress, &Address
+    std::vector data = {
+        &HireDate, &EmployeeId,
+        &Role, &Department, &Division,
+        &Location, &ManagerId,
     };
 
     EditableData::EditData(data, 2, 24, 11, 35);

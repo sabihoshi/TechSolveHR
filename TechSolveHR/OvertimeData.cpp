@@ -1,10 +1,10 @@
-﻿#include "EmergencyData.h"
+﻿#include "OvertimeData.h"
 
 #include <iostream>
 
 #include "console.h"
 
-void EmergencyData::PrintData()
+void OvertimeData::PrintData()
 {
     Clear(ClearType::Screen);
     XY(0, 0);
@@ -16,18 +16,14 @@ void EmergencyData::PrintData()
     std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
     std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-    std::cout << "║                          Emergency                         ║" << std::endl;
+    std::cout << "║                 |    OVERTIME RECORDS   |                  ║" << std::endl;
     std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║                 Name:                                      ║" << std::endl;
-    std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║         Relationship:                                      ║" << std::endl;
-    std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║                Phone:                                      ║" << std::endl;
-    std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║                Email:                                      ║" << std::endl;
-    std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║              Address:                                      ║" << std::endl;
+    std::cout << "║              Time In:                                      ║" << std::endl;
+    std::cout << "║             Time Out:                                      ║" << std::endl;
+    std::cout << "║               Amount:                                      ║" << std::endl;
+    std::cout << "║                 Type:                                      ║" << std::endl;
+    std::cout << "║               Reason:                                      ║" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
     std::cout << "║                 Use Up/Down to Navigate.                   ║" << std::endl;
@@ -37,14 +33,13 @@ void EmergencyData::PrintData()
     std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
 }
 
-void EmergencyData::EditData()
+void OvertimeData::EditData()
 {
     PrintData();
 
     const std::vector data = {
-        &Name, &Relationship, &PhoneNumber,
-        &EmailAddress, &Address
+        &TimeIn, &TimeOut, &Amount, &Type, &Reason
     };
 
-    EditableData::EditData(data, 2, 24, 11, 35);
+    EditableData::EditData(data, 1, 24, 11, 35);
 }

@@ -1,10 +1,10 @@
-﻿#include "EmergencyData.h"
+﻿#include "PersonalData.h"
 
 #include <iostream>
 
 #include "console.h"
 
-void EmergencyData::PrintData()
+void PersonalData::PrintData()
 {
     Clear(ClearType::Screen);
     XY(0, 0);
@@ -16,18 +16,24 @@ void EmergencyData::PrintData()
     std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
     std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-    std::cout << "║                          Emergency                         ║" << std::endl;
+    std::cout << "║                     Personal Information                   ║" << std::endl;
     std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║                 Name:                                      ║" << std::endl;
+    std::cout << "║      Full legal Name:                                      ║" << std::endl; // 24, 11
     std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║         Relationship:                                      ║" << std::endl;
+    std::cout << "║               Gender:                                      ║" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║                Phone:                                      ║" << std::endl;
-    std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║                Email:                                      ║" << std::endl;
+    std::cout << "║       Marital Status:                                      ║" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
     std::cout << "║              Address:                                      ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║                  TIN:                                      ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║           PhilHealth:                                      ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║                  SSS:                                      ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║                Phone:                                      ║" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
     std::cout << "║                 Use Up/Down to Navigate.                   ║" << std::endl;
@@ -37,13 +43,15 @@ void EmergencyData::PrintData()
     std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
 }
 
-void EmergencyData::EditData()
+void PersonalData::EditData()
 {
     PrintData();
 
     const std::vector data = {
-        &Name, &Relationship, &PhoneNumber,
-        &EmailAddress, &Address
+        &Name, &Gender,
+        &MaritalStatus, &Address,
+        &Tin, &PhilHealth, &Sss,
+        &PhoneNumber,
     };
 
     EditableData::EditData(data, 2, 24, 11, 35);

@@ -104,6 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,23 +128,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AttendanceRecord.cpp" />
+    <ClCompile Include="AttendanceData.cpp" />
+    <ClCompile Include="EditableData.cpp" />
     <ClCompile Include="EmergencyData.cpp" />
     <ClCompile Include="Employee.cpp" />
-    <ClCompile Include="LeaveRecord.cpp" />
+    <ClCompile Include="LeaveData.cpp" />
+    <ClCompile Include="OvertimeData.cpp" />
     <ClCompile Include="PerformanceReview.cpp" />
+    <ClCompile Include="PersonalData.cpp" />
     <ClCompile Include="TechSolveHR.cpp" />
     <ClCompile Include="User.cpp" />
+    <ClCompile Include="WorkData.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AttendanceRecord.h" />
+    <ClInclude Include="AttendanceData.h" />
+    <ClInclude Include="boolinq.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="EditableData.h" />
     <ClInclude Include="EmergencyData.h" />
     <ClInclude Include="Employee.h" />
     <ClInclude Include="json.hpp" />
-    <ClInclude Include="LeaveRecord.h" />
+    <ClInclude Include="LeaveData.h" />
+    <ClInclude Include="OvertimeData.h" />
     <ClInclude Include="PerformanceReview.h" />
+    <ClInclude Include="PersonalData.h" />
     <ClInclude Include="User.h" />
+    <ClInclude Include="WorkData.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

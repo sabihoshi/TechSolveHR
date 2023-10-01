@@ -1,10 +1,13 @@
 #pragma once
 #include <string>
 
+#include "EditableData.h"
+
 class User
 {
-private:
-    std::string username;
-    std::string password;
-};
+public:
+    std::string Username;
+    std::string Password;
 
+    [[nodiscard]] bool Login(const std::string& username, const std::string& password) const;
+};
