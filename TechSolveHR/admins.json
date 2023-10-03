@@ -1,0 +1,42 @@
+[
+    {
+        "Attendances": [
+            {
+                "Date": "2000-01-01",
+                "TimeIn": "7:00 AM",
+                "TimeOut": "5:00 PM"
+            }
+        ],
+        "EmergencyData": {
+            "Address": "",
+            "EmailAddress": "",
+            "Name": "Admin",
+            "PhoneNumber": "",
+            "Relationship": ""
+        },
+        "Password": "admin",
+        "Performances": [],
+        "PersonalData": {
+            "Address": "",
+            "DateOfBirth": "",
+            "DateOfHire": "",
+            "Gender": "",
+            "MaritalStatus": "",
+            "Name": "Administrator",
+            "PhilHealth": "",
+            "PhoneNumber": "",
+            "Sss": "",
+            "Tin": ""
+        },
+        "Username": "admin",
+        "WorkData": {
+            "Department": "",
+            "Division": "",
+            "EmployeeId": "0",
+            "HireDate": "01/01/1990",
+            "Location": "",
+            "ManagerId": "0",
+            "Role": ""
+        }
+    }
+]

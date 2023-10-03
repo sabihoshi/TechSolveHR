@@ -2,9 +2,12 @@
 
 #include <iostream>
 
+#include "console.h"
+
 void PerformanceData::PrintData()
 {
-	std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+    Clear(ClearType::Screen);
+    std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
 	std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
 	std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
 	std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;

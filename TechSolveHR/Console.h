@@ -208,6 +208,9 @@ inline void ResetColor()
 
 inline std::string Repeat(const std::string& string, const size_t repeats)
 {
+    if (repeats == 0)
+        return "";
+
     std::ostringstream repeated;
     const auto iterator = std::ostream_iterator<std::string>(repeated);
     fill_n(iterator, repeats, string);
@@ -221,8 +224,12 @@ inline std::string Repeat(const char character, const int repeats)
 
 inline std::string Center(const std::string& string, const size_t length)
 {
+    if (string.length() > length)
+        return string;
+
     const size_t left = length / 2 - string.length() / 2;
-    return Repeat(" ", left) + string;
+    const size_t right = length - left - string.length();
+    return Repeat(" ", left) + string + Repeat(" ", right);
 }
 
 inline std::string Right(const std::string& string, const size_t length)
@@ -235,6 +242,14 @@ inline std::string Left(const std::string& string, const size_t length)
 {
     const size_t repeat = length - string.length();
     return Repeat(" ", repeat) + string;
+}
+
+inline std::vector<std::string> Chunk(const std::string& string, const size_t length)
+{
+    std::vector<std::string> chunks;
+    for (size_t i = 0; i < string.length(); i += length)
+        chunks.push_back(string.substr(i, length));
+    return chunks;
 }
 
 inline void SetConsoleMode(const int mode)

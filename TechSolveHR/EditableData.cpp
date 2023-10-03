@@ -29,45 +29,52 @@ void EditableData::EditData(const std::vector<std::string*>& items, const int sp
     {
         switch (const int c = _getch())
         {
-            case KEY_UP:
-                if (isEditing)
-                    break;
+            case 224:
+                switch (_getch())
+                {
+                    case KEY_UP:
+                        if (isEditing)
+                            break;
 
-                if (index > 0)
-                {
-                    index--;
-                    position = MoveCursor(CursorDirection::Up, spacing);
-                }
-                else
-                {
-                    index = items.size() - 1;
-                    position = XY(x, y + (items.size() - 1) * spacing);
-                }
-                break;
-            case KEY_DOWN:
-                if (isEditing)
-                    break;
+                        if (index > 0)
+                        {
+                            index--;
+                            position = MoveCursor(CursorDirection::Up, spacing);
+                        }
+                        else
+                        {
+                            index = items.size() - 1;
+                            position = XY(x, y + (items.size() - 1) * spacing);
+                        }
+                        break;
+                    case KEY_DOWN:
+                        if (isEditing)
+                            break;
 
-                if (index < items.size() - 1)
-                {
-                    index++;
-                    position = MoveCursor(CursorDirection::Down, spacing);
-                }
-                else
-                {
-                    index = 0;
-                    position = XY(x, y);
+                        if (index < items.size() - 1)
+                        {
+                            index++;
+                            position = MoveCursor(CursorDirection::Down, spacing);
+                        }
+                        else
+                        {
+                            index = 0;
+                            position = XY(x, y);
+                        }
+                        break;
                 }
                 break;
             case KEY_ENTER:
                 if (isEditing)
                 {
-                    delete items[index];
+                    isEditing = false;
                     *items[index] = *input;
 
-                    input = new std::string;
-                    isEditing = false;
-
+                    ResetColor();
+                    XY(position);
+                    std::cout << Repeat(" ", maxCharacters);
+                    XY(position);
+                    std::cout << *input;
                     XY(position);
 
                     if (index < items.size() - 1)
@@ -80,11 +87,15 @@ void EditableData::EditData(const std::vector<std::string*>& items, const int sp
                         index = 0;
                         position = XY(x, y);
                     }
+
+                    delete input;
+                    input = new std::string;
                 }
                 else
                 {
                     isEditing = true;
 
+                    SwapColors();
                     std::cout << Repeat(" ", maxCharacters);
                     XY(position);
                 }
@@ -96,6 +107,7 @@ void EditableData::EditData(const std::vector<std::string*>& items, const int sp
                     input = new std::string;
                     isEditing = false;
 
+                    ResetColor();
                     XY(position);
                     std::cout << Repeat(" ", maxCharacters);
                     XY(position);
@@ -115,7 +127,7 @@ void EditableData::EditData(const std::vector<std::string*>& items, const int sp
                 }
                 break;
             default:
-                if (isEditing && isalpha(c) && input->length() < maxCharacters)
+                if (isEditing && !iscntrl(c) && input->length() < maxCharacters)
                 {
                     *input += static_cast<char>(c);
                     std::cout << static_cast<char>(c);
@@ -124,5 +136,3 @@ void EditableData::EditData(const std::vector<std::string*>& items, const int sp
         }
     }
 }
-
-void EditableData::PrintData() {}

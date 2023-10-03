@@ -1,19 +1,18 @@
 #pragma once
 
+#include "EditableData.h"
 #include "json.hpp"
 
-class AttendanceData
+class AttendanceData : EditableData
 {
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(AttendanceData,
-        EmployeeId, Date, TimeIn, TimeOut)
-
-    static std::vector<AttendanceData>* _current;
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE(AttendanceData, Date, TimeIn, TimeOut)
 
 public:
-    std::string EmployeeId;
     std::string Date;
     std::string TimeIn;
     std::string TimeOut;
 
-    static std::vector<AttendanceData> Current();
+    void PrintData() override;
+
+    void EditData() override;
 };

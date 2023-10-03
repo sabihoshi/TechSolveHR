@@ -7,7 +7,6 @@
 void PersonalData::PrintData()
 {
     Clear(ClearType::Screen);
-    XY(0, 0);
     std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
     std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
     std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;

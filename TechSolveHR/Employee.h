@@ -6,18 +6,17 @@
 #include "json.hpp"
 #include "LeaveData.h"
 #include "OvertimeData.h"
+#include "PerformanceData.h"
 #include "PersonalData.h"
 #include "User.h"
 #include "WorkData.h"
-#include "PerformanceData.h"
 
 class Employee : public User
 {
     NLOHMANN_DEFINE_TYPE_INTRUSIVE(Employee,
         Username, Password,
-        PersonalData, EmergencyData, WorkData)
-
-    static std::vector<Employee>* _all;
+        PersonalData, EmergencyData, WorkData,
+        Performances, Attendances)
 
 public:
     PersonalData PersonalData;
@@ -26,10 +25,11 @@ public:
     std::vector<LeaveData> Leaves;
     std::vector<OvertimeData> Overtimes;
     std::vector<PerformanceData> Performances;
+    std::vector<AttendanceData> Attendances;
 
-    static std::vector<Employee> All();
+    static std::vector<const Employee*>& All();
 
-    void Save() override;
+    static void Save();
 
     /*
         PERSONAL INFORMATION
@@ -45,6 +45,8 @@ public:
     void DocumentMenu();
 
     void OvertimeMenu();
+
+    void AttendanceMenu();
 
     bool operator ==(const Employee& other) const;
 };

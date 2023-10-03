@@ -6,10 +6,10 @@
 class User
 {
 public:
+    virtual ~User() = default;
+
     std::string Username;
     std::string Password;
-
-    virtual void Save() = 0;
 
     void ChangePasswordMenu();
 

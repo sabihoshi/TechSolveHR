@@ -18,8 +18,6 @@ public:
     std::string Location;
     std::string ManagerId = "0";
 
-    ~WorkData() override = default;
-
     void PrintData() override;
 
     void EditData() override;

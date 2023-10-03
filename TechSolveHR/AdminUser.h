@@ -1,18 +1,19 @@
 #pragma once
+
+#include <vector>
+
 #include "Employee.h"
 
 class AdminUser : public Employee
 {
-
-    static std::vector<AdminUser>* _all;
 public:
+    static std::vector<const AdminUser*>& All();
 
-    static std::vector<AdminUser> All();
-
-    void Save() override;
+    static void Save();
 
     void CreateEmployeeMenu();
 
     void EditEmployeeMenu();
-};
 
+    void DeleteEmployeeMenu();
+};

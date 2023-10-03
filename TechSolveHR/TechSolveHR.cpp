@@ -12,9 +12,9 @@
 
 using namespace std;
 
-void EmployeeMenu(Employee&);
+void EmployeeMenu(Employee*);
 
-void AdminMenu(AdminUser&);
+void AdminMenu(AdminUser*);
 
 /*
     LOGIN PANEL
@@ -43,15 +43,34 @@ int main()
     constexpr int consoleWidth = 537;
     MoveWindow(console, 0, 0, consoleWidth, consoleHeight, SWP_NOMOVE | SWP_NOZORDER);
 
-    const std::vector<AdminUser> admins = AdminUser::All();
-    const std::vector<Employee> employees = Employee::All();
-    const std::vector<AttendanceData> attendances = AttendanceData::Current();
-
-    bool exitState = true;
-    while (exitState)
+    while (true)
     {
+        ResetColor();
+
+        struct EmployeeAttendance
+        {
+            std::string Name;
+            AttendanceData Attendance;
+        };
+
+        const auto adminAttendances = boolinq::from(AdminUser::All()).selectMany([](const AdminUser* e)
+        {
+            return boolinq::from(e->Attendances)
+                .select([=](const AttendanceData& a) { return EmployeeAttendance{e->PersonalData.Name, a}; });
+        });
+        const auto employeeAttendances = boolinq::from(Employee::All()).selectMany([](const Employee* e)
+        {
+            return boolinq::from(e->Attendances)
+                .select([=](const AttendanceData& a) { return EmployeeAttendance{e->PersonalData.Name, a}; });
+        });
+
+        const auto attendances =
+            employeeAttendances
+            .concat(adminAttendances)
+            .orderBy([&](const EmployeeAttendance& e) { return e.Attendance.Date; })
+            .toStdVector();
+
         Clear(ClearType::Screen);
-        XY(0, 0);
         std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
         std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
         std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
@@ -67,7 +86,7 @@ int main()
         std::cout << "║               Username: __________________                 ║" << std::endl;
         std::cout << "║               Password: __________________                 ║" << std::endl;
         std::cout << "║                                                            ║" << std::endl;
-        std::cout << "║                    Press [ESC] to exit                     ║" << std::endl;
+        std::cout << "║                                                            ║" << std::endl;
         std::cout << "║                                                            ║" << std::endl;
         std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
         std::cout << "║    DATE     |       NAME       |   TIME IN   |   TIME OUT  ║" << std::endl;
@@ -96,11 +115,11 @@ int main()
         for (int i = 0; i < 17 && i < attendances.size(); i++)
         {
             auto current = XY();
-            auto& [EmployeeId, Date, TimeIn, TimeOut] = attendances[i];
-            auto& e = employees[i];
+            auto& [Date, TimeIn, TimeOut] = attendances[i].Attendance;
+            auto& name = attendances[i].Name;
             std::cout
                 << Center(Date, 11) << " | "
-                << Center(e.PersonalData.Name, 16) << " | "
+                << Center(name, 16) << " | "
                 << Center(TimeIn, 11) << " | "
                 << Center(TimeOut, 11);
             XY(current);
@@ -116,13 +135,12 @@ int main()
         XY(26, 13);
         std::cin >> password;
 
-        const bool isAdmin = boolinq::from(admins).any([&](const auto& e) { return e.Login(username, password); });
-        const bool isEmployee = boolinq::from(employees).any([&](const auto& e) { return e.Login(username, password); });
+        const bool isAdmin = boolinq::from(AdminUser::All()).any([&](const auto& e) { return e->Login(username, password); });
+        const bool isEmployee = boolinq::from(Employee::All()).any([&](const auto& e) { return e->Login(username, password); });
 
-        if (isAdmin || isEmployee)
+        if (!isAdmin && !isEmployee)
         {
             Clear(ClearType::Screen);
-            XY(0, 0);
             std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
             std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
             std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
@@ -146,20 +164,22 @@ int main()
 
         if (isAdmin)
         {
-            auto admin = boolinq::from(admins).first([&](const auto& e) { return e.Login(username, password); });
-            AdminMenu(admin);
-            admin.Save();
+            auto admin = boolinq::from(AdminUser::All()).first([&](const auto& e) { return e->Login(username, password); });
+
+            AdminMenu(const_cast<AdminUser*>(admin));
+            AdminUser::Save();
         }
         else
         {
-            auto employee = boolinq::from(employees).first([&](const auto& e) { return e.Login(username, password); });
-            EmployeeMenu(employee);
-            employee.Save();
+            auto employee = boolinq::from(Employee::All()).first([&](const auto& e) { return e->Login(username, password); });
+
+            EmployeeMenu(const_cast<Employee*>(employee));
+            Employee::Save();
         }
     }
 }
 
-void EmployeeMenu(Employee& employee)
+void EmployeeMenu(Employee* employee)
 {
     int choice = 0;
     while (choice != 5)
@@ -177,7 +197,6 @@ void EmployeeMenu(Employee& employee)
         */
 
         Clear(ClearType::Screen);
-        XY(0, 0);
         std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
         std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
         std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
@@ -194,6 +213,7 @@ void EmployeeMenu(Employee& employee)
         std::cout << "║               [2] - Apply for Leave                        ║" << std::endl;
         std::cout << "║               [3] - Access Company Resources               ║" << std::endl;
         std::cout << "║               [4] - Attendance Records                     ║" << std::endl;
+        std::cout << "║                                                            ║" << std::endl;
         std::cout << "║               [5] - Back                                   ║" << std::endl;
         std::cout << "║                                                            ║" << std::endl;
         std::cout << "║                                                            ║" << std::endl;
@@ -216,8 +236,8 @@ void EmployeeMenu(Employee& employee)
                     MISSING FEATURES:
                     - use of up and down keys to move cursor to the next or previous field
                 */
-                employee.EditInfoMenu();
-                employee.Save();
+                employee->EditInfoMenu();
+                Employee::Save();
                 break;
             case 2:
                 /*
@@ -226,8 +246,8 @@ void EmployeeMenu(Employee& employee)
                     MISSING FEATURES:
                     - use of up and down keys to move cursor to the next or previous field
                 */
-                employee.LeaveMenu();
-                employee.Save();
+                employee->LeaveMenu();
+                Employee::Save();
                 break;
             case 3:
 
@@ -241,8 +261,8 @@ void EmployeeMenu(Employee& employee)
                         - Request Performance Feedback
                     - use of up and down keys to move cursor to the next or previous field
                 */
-                employee.DocumentMenu();
-                employee.Save();
+                employee->DocumentMenu();
+                Employee::Save();
                 break;
             case 4:
                 /*
@@ -251,8 +271,8 @@ void EmployeeMenu(Employee& employee)
                     MISSING FEATURES:
                     - use of up and down keys to move cursor to the next or previous field
                 */
-                employee.OvertimeMenu();
-                employee.Save();
+                employee->OvertimeMenu();
+                Employee::Save();
                 break;
             case 5:
                 return;
@@ -280,40 +300,125 @@ void EmployeeMenu(Employee& employee)
     }
 }
 
-void AdminMenu(AdminUser& admin)
+void AdminMenu(AdminUser* admin)
 {
+    Clear(ClearType::Screen);
+    std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+    std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+    std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+    std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+    std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+    std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    std::cout << "║                  |      Admin Menu     |                   ║" << std::endl;
+    std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║               [1] - Create Employee                        ║" << std::endl;
+    std::cout << "║               [2] - Edit Employee                          ║" << std::endl;
+    std::cout << "║               [3] - Delete Employee                        ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║               [4] - Update Personal Details                ║" << std::endl;
+    std::cout << "║               [5] - Apply for Leave                        ║" << std::endl;
+    std::cout << "║               [6] - Access Company Resources               ║" << std::endl;
+    std::cout << "║               [7] - Attendance Records                     ║" << std::endl;
+    std::cout << "║               [8] - Overtime Records                       ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║               [9] - Back                                   ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║               >>                                           ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+    XY(19, 25);
+
+    int choice;
     std::cin >> choice;
-    if (manageEmployees)
+
+    switch (choice)
     {
-        // Create employee
-        // Edit employee
-        // Delete employee
-        std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
-        std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
-        std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
-        std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
-        std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
-        std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
-        std::cout << "║                                                            ║" << std::endl;
-        std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-        std::cout << "║                |      Employee Menu     |                  ║" << std::endl;
-        std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-        std::cout << "║                                                            ║" << std::endl;
-        std::cout << "║                                                            ║" << std::endl;
-        std::cout << "║               [1] - Create Employee Record                 ║" << std::endl;
-        std::cout << "║               [2] - Edit Employee Record                   ║" << std::endl;
-        std::cout << "║               [3] - Delete Employee Record                 ║" << std::endl;
-        std::cout << "║               [4] - Back                                   ║" << std::endl;
-        std::cout << "║                                                            ║" << std::endl;
-        std::cout << "║                                                            ║" << std::endl;
-        std::cout << "║               >>                                           ║" << std::endl;
-        std::cout << "║                                                            ║" << std::endl;
-        std::cout << "║                                                            ║" << std::endl;
-        std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
-        XY(19,21);
-    }
-    else
-    {
-        EmployeeMenu(admin);
+        case 1:
+            admin->CreateEmployeeMenu();
+            break;
+        case 2:
+            admin->EditEmployeeMenu();
+            break;
+        case 3:
+            admin->DeleteEmployeeMenu();
+            break;
+        case 4:
+            /*
+                PERSONAL INFORMATION
+                *** NOT FUNCITONAL, PLACEHOLDER ONLY ***
+                - Instantiates variables per case then pushes values into list
+                - List is updated and overwrites data into a new XLSX or XML file (whichever is preferred)
+
+                MISSING FEATURES:
+                - use of up and down keys to move cursor to the next or previous field
+            */
+            admin->EditInfoMenu();
+            AdminUser::Save();
+            break;
+        case 5:
+            /*
+                APPLY FOR LEAVE
+                MISSING FEATURES:
+                - use of up and down keys to move cursor to the next or previous field
+            */
+            admin->LeaveMenu();
+            AdminUser::Save();
+            break;
+        case 6:
+
+            /*
+                ACCESS COMPANY RESOURCES
+                MISSING FEATURES:
+                - user should input the necessary information being (name, department, etc.) of the employee to be assessed
+                - user should be able to access the following:
+                    - Employee Assessment
+                    - Request Performance Feedback
+                - use of up and down keys to move cursor to the next or previous field
+            */
+            admin->DocumentMenu();
+            AdminUser::Save();
+            break;
+        case 7:
+            admin->AttendanceMenu();
+            AdminUser::Save();
+            break;
+        case 8:
+            /*
+                OVERTIME RECORDS
+                MISSING FEATURES:
+                - use of up and down keys to move cursor to the next or previous field
+            */
+            admin->OvertimeMenu();
+            AdminUser::Save();
+            break;
+        case 9:
+            return;
+        default:
+            Clear(ClearType::Screen);
+            std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+            std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+            std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+            std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+            std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+            std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+            std::cout << "║                                                            ║" << std::endl;
+            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+            std::cout << "║                |    LOGIN SYSTEM MENU   |                  ║" << std::endl;
+            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+            std::cout << "║                                                            ║" << std::endl;
+            std::cout << "║                                                            ║" << std::endl;
+            std::cout << "║                      Invalid Entry!                        ║" << std::endl;
+            std::cout << "║               [Press any key to try again]                 ║" << std::endl;
+            std::cout << "║                                                            ║" << std::endl;
+            std::cout << "║                                                            ║" << std::endl;
+            std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+            _getch();
+            break;
     }
 }
