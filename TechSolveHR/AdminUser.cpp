@@ -5,6 +5,7 @@
 #include <fstream>
 #include <iostream>
 
+#include "boolinq.h"
 #include "console.h"
 
 std::vector<AdminUser> AdminUser::All()
@@ -29,16 +30,65 @@ void AdminUser::Save()
 
 void AdminUser::CreateEmployeeMenu()
 {
-    std::cout << "Type: ";
+    XY(24, 12);
+    std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+    std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+    std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+    std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+    std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+    std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    std::cout << "║" << Center("Create Employee", 64) <<"║" << std::endl;
+    std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║            User Type:                                      ║" << std::endl; // 24, 11
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
     std::string userType;
     std::cin >> userType;
 
-    std::cout << "Username: ";
+    Clear(ClearType::Screen);
+    XY(24, 12);
+    std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+    std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+    std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+    std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+    std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+    std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    std::cout << "║" << Center("Create Employee", 64) <<"║" << std::endl;
+    std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║             Username:                                      ║" << std::endl; // 24, 11
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
     std::string username;
     std::cin >> username;
 
-    // Show that the default password is this employee's birthday
-    std::cout << "Password: ";
+    Clear(ClearType::Screen);
+    XY(24, 12);
+    std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+    std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+    std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+    std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+    std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+    std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    std::cout << "║" << Center("Create Employee", 64) <<"║" << std::endl;
+    std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║             Password:                                      ║" << std::endl; // 24, 11
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
     std::string password;
     std::cin >> password;
 
@@ -47,7 +97,7 @@ void AdminUser::CreateEmployeeMenu()
         case 'A':
         {
             AdminUser user;
-            user.PersonalInfoMenu();
+            user.EditInfoMenu();
 
             All().push_back(user);
             Save();
@@ -56,7 +106,7 @@ void AdminUser::CreateEmployeeMenu()
         case 'E':
         {
             Employee user;
-            user.PersonalInfoMenu();
+            user.EditInfoMenu();
 
             Employee::All().push_back(user);
             Employee::Save();
@@ -87,4 +137,14 @@ void AdminUser::CreateEmployeeMenu()
     }
 }
 
-void AdminUser::EditEmployeeMenu() {}
+void AdminUser::EditEmployeeMenu()
+{
+    std::cout << "Enter employee ID";
+    std::string employeeId;
+    std::cin >> employeeId;
+
+    bool isAdmin = boolinq::from(All()).any([&](const auto& user) { return user.WorkData.EmployeeId == employeeId; });
+    bool isEmployee = boolinq::from(Employee::All()).any([&](const auto& user) { return user.WorkData.EmployeeId == employeeId; });
+
+    e.EditInfoMenu();
+}

@@ -26,7 +26,6 @@ public:
     std::vector<LeaveData> Leaves;
     std::vector<OvertimeData> Overtimes;
     std::vector<PerformanceData> Performances;
-    static Employee Current;
 
     static std::vector<Employee> All();
 
@@ -37,7 +36,7 @@ public:
         - Instantiates variables per case then pushes values into list
         - List is updated and overwrites data into a new XLSX or XML file (whichever is preferred)
     */
-    void PersonalInfoMenu();
+    void EditInfoMenu();
 
     void LeaveMenu();
 

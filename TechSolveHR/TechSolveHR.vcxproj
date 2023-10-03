@@ -136,7 +136,6 @@
     <ClCompile Include="LeaveData.cpp" />
     <ClCompile Include="OvertimeData.cpp" />
     <ClCompile Include="PerformanceData.cpp" />
-    <ClCompile Include="PerformanceReview.cpp" />
     <ClCompile Include="PersonalData.cpp" />
     <ClCompile Include="TechSolveHR.cpp" />
     <ClCompile Include="User.cpp" />
@@ -154,10 +153,13 @@
     <ClInclude Include="LeaveData.h" />
     <ClInclude Include="OvertimeData.h" />
     <ClInclude Include="PerformanceData.h" />
-    <ClInclude Include="PerformanceReview.h" />
     <ClInclude Include="PersonalData.h" />
     <ClInclude Include="User.h" />
     <ClInclude Include="WorkData.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Case Study - Documentation.pdf" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

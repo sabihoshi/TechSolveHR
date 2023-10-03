@@ -1,7 +1,7 @@
 #pragma once
 #include "Employee.h"
 
-class AdminUser : Employee
+class AdminUser : public Employee
 {
 
     static std::vector<AdminUser>* _all;

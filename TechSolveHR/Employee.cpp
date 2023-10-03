@@ -34,7 +34,7 @@ void Employee::Save()
     ofsEmployees <<  j.dump(4);
 }
 
-void Employee::PersonalInfoMenu()
+void Employee::EditInfoMenu()
 {
     Clear(ClearType::Screen);
     PersonalData.EditData();
@@ -168,10 +168,6 @@ void Employee::DocumentMenu()
                 std::cout << "║         Employee ID:                                       ║" << std::endl;
                 std::cout << "║                                                            ║" << std::endl;
                 std::cout << "║                                                            ║" << std::endl;
-                std::cout << "║                                                            ║" << std::endl;
-                std::cout << "║                                                            ║" << std::endl;
-                std::cout << "║                                                            ║" << std::endl;
-                std::cout << "║                                                            ║" << std::endl;
                 std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
 
                 XY(23, 10);
@@ -194,9 +190,6 @@ void Employee::DocumentMenu()
                     std::cout << "║                                                            ║" << std::endl;
                     std::cout << "║             Error! Unable to find that employee.           ║" << std::endl;
                     std::cout << "║               Press [Enter] to continue.                   ║" << std::endl;
-                    std::cout << "║                                                            ║" << std::endl;
-                    std::cout << "║                                                            ║" << std::endl;
-                    std::cout << "║                                                            ║" << std::endl;
                     std::cout << "║                                                            ║" << std::endl;
                     std::cout << "║                                                            ║" << std::endl;
                     std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
@@ -223,9 +216,6 @@ void Employee::DocumentMenu()
                     std::cout << "║               Press [Enter] to continue.                   ║" << std::endl;
                     std::cout << "║                                                            ║" << std::endl;
                     std::cout << "║                                                            ║" << std::endl;
-                    std::cout << "║                                                            ║" << std::endl;
-                    std::cout << "║                                                            ║" << std::endl;
-                    std::cout << "║                                                            ║" << std::endl;
                     std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
                     _getch();
                     continue;
@@ -233,7 +223,7 @@ void Employee::DocumentMenu()
 
                 PerformanceData performance;
                 performance.EmployeeId = employee.WorkData.EmployeeId;
-                performance.ManagerId = Current.WorkData.EmployeeId;
+                performance.ManagerId = WorkData.EmployeeId;
                 performance.EditData();
                 employee.Performances.push_back(performance);
 
