@@ -9,6 +9,7 @@
 #include "PersonalData.h"
 #include "User.h"
 #include "WorkData.h"
+#include "PerformanceData.h"
 
 class Employee : public User
 {
@@ -16,12 +17,20 @@ class Employee : public User
         Username, Password,
         PersonalData, EmergencyData, WorkData)
 
+    static std::vector<Employee>* _all;
+
 public:
     PersonalData PersonalData;
     EmergencyData EmergencyData;
     WorkData WorkData;
     std::vector<LeaveData> Leaves;
     std::vector<OvertimeData> Overtimes;
+    std::vector<PerformanceData> Performances;
+    static Employee Current;
+
+    static std::vector<Employee> All();
+
+    void Save() override;
 
     /*
         PERSONAL INFORMATION

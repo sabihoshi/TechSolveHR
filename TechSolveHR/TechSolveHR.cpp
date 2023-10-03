@@ -8,8 +8,12 @@
 #include "boolinq.h"
 #include "console.h"
 #include "Employee.h"
+#include "AdminUser.h"
 
 using namespace std;
+
+void EmployeeMenu();
+void AdminMenu();
 
 /*
     LOGIN PANEL
@@ -26,11 +30,11 @@ int main()
     /*
         CONSOLE CONFIGURATION
         - sets the console window size to 537x900
-        - sets the console window title to "onboardingSystem"
+        - sets the console window title to "TechSolve HR System"
         - sets the console output to UTF-8
     */
 
-    SetConsoleTitleA("Tech Solve HR System");
+    SetConsoleTitleA("TechSolve HR System");
     SetConsoleOutputCP(65001);
 
     const HWND console = GetConsoleWindow();
@@ -38,27 +42,10 @@ int main()
     constexpr int consoleWidth = 537;
     MoveWindow(console, 0, 0, consoleWidth, consoleHeight, SWP_NOMOVE | SWP_NOZORDER);
 
-    // Check if employee.json exists, if not create it with [] as content
 
-    if (!std::filesystem::exists("employees.json"))
-    {
-        std::ofstream ofs("employees.json");
-        ofs << "[]";
-        ofs.close();
-    }
-
-    if (!std::filesystem::exists("logins.json"))
-    {
-        std::ofstream ofs("attendances.json");
-        ofs << "[]";
-        ofs.close();
-    }
-
-    std::ifstream ifsEmployees("employees.json");
-    std::vector<Employee> employees = nlohmann::json::parse(ifsEmployees);
-
-    std::ifstream ifsLogins("attendances.json");
-    std::vector<AttendanceData> attendances = nlohmann::json::parse(ifsLogins);
+    const std::vector<AdminUser> admins = AdminUser::All();
+    const std::vector<Employee> employees = Employee::All();
+    const std::vector<AttendanceData> attendances = AttendanceData::Current();
 
     bool exitState = true;
     while (exitState)
@@ -153,7 +140,8 @@ int main()
             _getch();
             continue;
         }
-        auto employee = boolinq::from(employees).first([&](const Employee& e) { return e.Login(username, password); });
+        auto admin = boolinq::from(admins).first()
+        auto employee = Employee::Current = boolinq::from(employees).first([&](const Employee& e) { return e.Login(username, password); });
 
         int choice = 0;
         while (choice != 5)
@@ -180,15 +168,15 @@ int main()
             std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
             std::cout << "║                                                            ║" << std::endl;
             std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-            std::cout << "║                |    LOGIN SYSTEM MENU   |                  ║" << std::endl;
+            std::cout << "║                |      Employee Menu     |                  ║" << std::endl;
             std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
             std::cout << "║                                                            ║" << std::endl;
             std::cout << "║                                                            ║" << std::endl;
             std::cout << "║               [1] - Update Personal Details                ║" << std::endl;
             std::cout << "║               [2] - Apply for Leave                        ║" << std::endl;
             std::cout << "║               [3] - Access Company Resources               ║" << std::endl;
-            std::cout << "║               [4] - Overtime Records                       ║" << std::endl;
-            std::cout << "║               [5] - Logout                                 ║" << std::endl;
+            std::cout << "║               [4] - Attendance Records                     ║" << std::endl;
+            std::cout << "║               [5] - Back                                   ║" << std::endl;
             std::cout << "║                                                            ║" << std::endl;
             std::cout << "║                                                            ║" << std::endl;
             std::cout << "║               >>                                           ║" << std::endl;
@@ -197,8 +185,7 @@ int main()
             std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
             XY(19, 19);
             std::cin >> choice;
-            fflush(stdin);
-            system("cls");
+
             switch (choice)
             {
                 case 1:
@@ -212,6 +199,7 @@ int main()
                         - use of up and down keys to move cursor to the next or previous field
                     */
                     employee.PersonalInfoMenu();
+                    employee.Save();
                     break;
                 case 2:
                     /*
@@ -221,6 +209,7 @@ int main()
                         - use of up and down keys to move cursor to the next or previous field
                     */
                     employee.LeaveMenu();
+                    employee.Save();
                     break;
                 case 3:
 
@@ -235,6 +224,8 @@ int main()
                         - use of up and down keys to move cursor to the next or previous field
                     */
                     employee.DocumentMenu();
+                    employee.Save();
+                    break;
                 case 4:
                     /*
                         OVERTIME RECORDS
@@ -243,6 +234,8 @@ int main()
                         - use of up and down keys to move cursor to the next or previous field
                     */
                     employee.OvertimeMenu();
+                    employee.Save();
+                    break;
                 case 5:
                     username.clear();
                     password.clear();
@@ -266,7 +259,6 @@ int main()
                     std::cout << "║                                                            ║" << std::endl;
                     std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
                     _getch();
-                    system("cls");
                     break;
             }
         }

@@ -132,8 +132,10 @@
     <ClCompile Include="EditableData.cpp" />
     <ClCompile Include="EmergencyData.cpp" />
     <ClCompile Include="Employee.cpp" />
+    <ClCompile Include="AdminUser.cpp" />
     <ClCompile Include="LeaveData.cpp" />
     <ClCompile Include="OvertimeData.cpp" />
+    <ClCompile Include="PerformanceData.cpp" />
     <ClCompile Include="PerformanceReview.cpp" />
     <ClCompile Include="PersonalData.cpp" />
     <ClCompile Include="TechSolveHR.cpp" />
@@ -147,9 +149,11 @@
     <ClInclude Include="EditableData.h" />
     <ClInclude Include="EmergencyData.h" />
     <ClInclude Include="Employee.h" />
+    <ClInclude Include="AdminUser.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="LeaveData.h" />
     <ClInclude Include="OvertimeData.h" />
+    <ClInclude Include="PerformanceData.h" />
     <ClInclude Include="PerformanceReview.h" />
     <ClInclude Include="PersonalData.h" />
     <ClInclude Include="User.h" />
