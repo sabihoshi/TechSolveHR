@@ -137,6 +137,98 @@ void Employee::PrintLeaveData()
     std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
 }
 
+void Employee::ViewPerformances()
+{
+    const auto reviews = boolinq::from(Performances)
+                         .orderBy([&](const PerformanceData& p) { return p.Date; })
+                         .reverse().toStdVector();
+
+    if (reviews.empty())
+    {
+        Clear(ClearType::Screen);
+        std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+        std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+        std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+        std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+        std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+        std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+        std::cout << "║                                                            ║" << std::endl;
+        std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+        std::cout << "║                                                            ║" << std::endl;
+        std::cout << "║                                                            ║" << std::endl;
+        std::cout << "║                      No records found.                     ║" << std::endl;
+        std::cout << "║               [Press any key to try again]                 ║" << std::endl;
+        std::cout << "║                                                            ║" << std::endl;
+        std::cout << "║                                                            ║" << std::endl;
+        std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+        _getch();
+        return;
+    }
+
+    int index = 0;
+    bool repeat = true;
+
+    while (repeat)
+    {
+        switch (_getch())
+        {
+            case 224:
+            {
+                switch (_getch())
+                {
+                    case KEY_UP:
+                    {
+                        index = index > 0 ? index - 1 : 0;
+                        break;
+                    }
+                    case KEY_DOWN:
+                    {
+                        index = index < reviews.size() - 1 ? index + 1 : reviews.size() - 1;
+                        break;
+                    }
+                }
+
+                constexpr int spacing = 29;
+                auto review = reviews[index];
+                std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+                std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+                std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+                std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+                std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+                std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+                std::cout << "║                                                            ║" << std::endl;
+                std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+                std::cout << "║  Job Knowledge             ║ " << Center(review.JobKnowledge, spacing) << " ║" << std::endl;
+                std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+                std::cout << "║  Work Quality              ║ " << Center(review.WorkQuality, spacing) << " ║" << std::endl;
+                std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+                std::cout << "║  Punctuality               ║ " << Center(review.Punctuality, spacing) << " ║" << std::endl;
+                std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+                std::cout << "║  Productivity              ║ " << Center(review.Productivity, spacing) << " ║" << std::endl;
+                std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+                std::cout << "║  Communication Skills      ║ " << Center(review.Communication, spacing) << " ║" << std::endl;
+                std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+                std::cout << "║  Overall Rating:           ║ " << Center(review.Overall, spacing) << " ║" << std::endl;
+                std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+                std::cout << "║ Comments:                                                  ║" << std::endl;
+                std::cout << "║                                                            ║" << std::endl;
+                for (const auto& comment : Chunk(review.Comments, 58))
+                {
+                    std::cout << "║ " << Left(comment, 58) << " ║" << std::endl;
+                }
+                std::cout << "║                                                            ║" << std::endl;
+                std::cout << "║ Press [Esc] to exit              Use [Up/Down] to navigate.║" << std::endl;
+                std::cout << "║                                                            ║" << std::endl;
+                std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+                break;
+            }
+            case KEY_ESC:
+                repeat = false;
+                break;
+        }
+    }
+}
+
 void Employee::DocumentMenu()
 {
     while (true)
@@ -159,7 +251,7 @@ void Employee::DocumentMenu()
         std::cout << "║                                                            ║" << std::endl;
         std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
 
-        XY(24, 14);
+        XY(24, 13);
         int documentOption;
         std::cin >> documentOption;
 
@@ -240,78 +332,13 @@ void Employee::DocumentMenu()
                 performance.ManagerId = WorkData.EmployeeId;
                 performance.EditData();
                 employee->Performances.push_back(performance);
+                employee->Save();
 
                 break;
             }
             case 2:
             {
-                auto reviews = boolinq::from(Performances)
-                               .orderBy([&](const PerformanceData& p) { return p.Date; })
-                               .reverse().toStdVector();
-
-                int index = 0;
-                bool repeat = true;
-
-                while (repeat)
-                {
-                    switch (_getch())
-                    {
-                        case 224:
-                        {
-                            switch (_getch())
-                            {
-                                case KEY_UP:
-                                {
-                                    index = index > 0 ? index - 1 : 0;
-                                    break;
-                                }
-                                case KEY_DOWN:
-                                {
-                                    index = index < reviews.size() - 1 ? index + 1 : reviews.size() - 1;
-                                    break;
-                                }
-                            }
-
-                            constexpr int spacing = 29;
-                            auto review = reviews[index];
-                            std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
-                            std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
-                            std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
-                            std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
-                            std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
-                            std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
-                            std::cout << "║                                                            ║" << std::endl;
-                            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-                            std::cout << "║  Job Knowledge             ║ " << Center(review.JobKnowledge, spacing) << " ║" << std::endl;
-                            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-                            std::cout << "║  Work Quality              ║ " << Center(review.WorkQuality, spacing) << " ║" << std::endl;
-                            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-                            std::cout << "║  Punctuality               ║ " << Center(review.Punctuality, spacing) << " ║" << std::endl;
-                            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-                            std::cout << "║  Productivity              ║ " << Center(review.Productivity, spacing) << " ║" << std::endl;
-                            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-                            std::cout << "║  Communication Skills      ║ " << Center(review.Communication, spacing) << " ║" << std::endl;
-                            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-                            std::cout << "║  Overall Rating:           ║ " << Center(review.Overall, spacing) << " ║" << std::endl;
-                            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-                            std::cout << "║ Comments:                                                  ║" << std::endl;
-                            std::cout << "║                                                            ║" << std::endl;
-                            for (const auto& comment : Chunk(review.Comments, 58))
-                            {
-                                std::cout << "║ " << Left(comment, 58) << " ║" << std::endl;
-                            }
-                            std::cout << "║                                                            ║" << std::endl;
-                            std::cout << "║ Press [Esc] to exit              Use [Up/Down] to navigate.║" << std::endl;
-                            std::cout << "║                                                            ║" << std::endl;
-                            std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
-                            break;
-                        }
-                        case KEY_ESC:
-                            repeat = false;
-                            break;
-                    }
-                }
-
+                ViewPerformances();
                 break;
             }
             case 3:
@@ -324,8 +351,6 @@ void Employee::DocumentMenu()
                 std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
                 std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
                 std::cout << "║                                                            ║" << std::endl;
-                std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-                std::cout << "║                |    LOGIN SYSTEM MENU   |                  ║" << std::endl;
                 std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
                 std::cout << "║                                                            ║" << std::endl;
                 std::cout << "║                                                            ║" << std::endl;

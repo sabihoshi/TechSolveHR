@@ -16,4 +16,6 @@ public:
     void EditEmployeeMenu();
 
     void DeleteEmployeeMenu();
+
+    void DocumentMenu();
 };

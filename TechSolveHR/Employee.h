@@ -42,6 +42,8 @@ public:
 
     void PrintLeaveData();
 
+    void ViewPerformances();
+
     void DocumentMenu();
 
     void OvertimeMenu();

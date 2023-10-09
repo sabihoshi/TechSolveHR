@@ -339,3 +339,104 @@ void AdminUser::DeleteEmployeeMenu()
         Employee::Save();
     }
 }
+
+void AdminUser::DocumentMenu()
+{
+    while (true)
+    {
+        Clear(ClearType::Screen);
+        std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+        std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+        std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+        std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+        std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+        std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+        std::cout << "║                                                            ║" << std::endl;
+        std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+        std::cout << "║                                                            ║" << std::endl;
+        std::cout << "║               [1] - View Performance Feedback              ║" << std::endl;
+        std::cout << "║               [2] - Back                                   ║" << std::endl;
+        std::cout << "║                                                            ║" << std::endl;
+        std::cout << "║                     >                                      ║" << std::endl;
+        std::cout << "║                                                            ║" << std::endl;
+        std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+
+        XY(24, 12);
+        int documentOption;
+        std::cin >> documentOption;
+
+        switch (documentOption)
+        {
+            case 1:
+            {
+                Clear(ClearType::Screen);
+                XY(0, 0);
+                std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+                std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+                std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+                std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+                std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+                std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+                std::cout << "║                                                            ║" << std::endl;
+                std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+                std::cout << "║                                                            ║" << std::endl;
+                std::cout << "║                                                            ║" << std::endl;
+                std::cout << "║         Employee ID:                                       ║" << std::endl;
+                std::cout << "║                                                            ║" << std::endl;
+                std::cout << "║                                                            ║" << std::endl;
+                std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+
+                XY(23, 10);
+                std::string employeeId;
+                std::cin >> employeeId;
+
+                if (!boolinq::from(All()).any([&](const Employee* e) { return e->WorkData.EmployeeId == employeeId; }))
+                {
+                    Clear(ClearType::Screen);
+                    XY(0, 0);
+                    std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+                    std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+                    std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+                    std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+                    std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+                    std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+                    std::cout << "║                                                            ║" << std::endl;
+                    std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+                    std::cout << "║                                                            ║" << std::endl;
+                    std::cout << "║                                                            ║" << std::endl;
+                    std::cout << "║             Error! Unable to find that employee.           ║" << std::endl;
+                    std::cout << "║               Press [Enter] to continue.                   ║" << std::endl;
+                    std::cout << "║                                                            ║" << std::endl;
+                    std::cout << "║                                                            ║" << std::endl;
+                    std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+                    _getch();
+                    continue;
+                }
+                auto* employee = const_cast<Employee*>(boolinq::from(Employee::All()).first([&](const Employee* e) { return e->WorkData.EmployeeId == employeeId; }));
+                employee->ViewPerformances();
+
+                break;
+            }
+            case 2:
+                return;
+            default:
+                std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+                std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+                std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+                std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+                std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+                std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+                std::cout << "║                                                            ║" << std::endl;
+                std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+                std::cout << "║                                                            ║" << std::endl;
+                std::cout << "║                                                            ║" << std::endl;
+                std::cout << "║                      Invalid Entry!                        ║" << std::endl;
+                std::cout << "║               [Press any key to try again]                 ║" << std::endl;
+                std::cout << "║                                                            ║" << std::endl;
+                std::cout << "║                                                            ║" << std::endl;
+                std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+                _getch();
+                break;
+        }
+    }
+}
