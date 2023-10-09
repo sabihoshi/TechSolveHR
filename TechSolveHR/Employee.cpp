@@ -187,7 +187,7 @@ void Employee::ViewPerformances()
                         break;
                     }
                 }
-
+                Clear(ClearType::Screen);
                 constexpr int spacing = 29;
                 auto review = reviews[index];
                 std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;

@@ -18,8 +18,8 @@ void LeaveData::PrintData()
     std::cout << "║                                                            ║" << std::endl;
     std::cout << "║ (mm-dd-yy)                                                 ║" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║  Enter Starting Date:                                      ║" << std::endl;
-    std::cout << "║       Enter End Date:                                      ║" << std::endl;
+    std::cout << "║  Enter Starting Date: yyyy-mm-dd                           ║" << std::endl;
+    std::cout << "║       Enter End Date: yyyy-mm-dd                           ║" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
     std::cout << "║                 Use Up/Down to Navigate.                   ║" << std::endl;

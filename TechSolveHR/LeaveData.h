@@ -11,8 +11,8 @@ class LeaveData : EditableData
         StartDate, EndDate, Type, Status)
 
 public:
-    std::string StartDate = "mm-dd-yy";
-    std::string EndDate = "mm-dd-yy";
+    std::string StartDate = "yyyy-mm-dd";
+    std::string EndDate = "yyyy-mm-dd";
     std::string Type = "Pending";
     std::string Status;
 

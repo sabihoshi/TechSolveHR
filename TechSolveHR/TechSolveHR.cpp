@@ -224,7 +224,7 @@ void EmployeeMenu(Employee* employee)
         std::cout << "║                                                            ║" << std::endl;
         std::cout << "║                                                            ║" << std::endl;
         std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
-        XY(19, 20);
+        XY(19, 21);
         std::cin >> choice;
 
             switch (choice)
