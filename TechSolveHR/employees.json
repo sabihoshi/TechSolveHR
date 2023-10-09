@@ -1,3 +1,36 @@
 [
-   
+    {
+        "Attendances": [],
+        "EmergencyData": {
+            "Address": "Mirage Palace",
+            "EmailAddress": "",
+            "Name": "Bagel",
+            "PhoneNumber": "",
+            "Relationship": "Married"
+        },
+        "Password": "manager",
+        "Performances": [],
+        "PersonalData": {
+            "Address": "Mirage Palace",
+            "DateOfBirth": "",
+            "DateOfHire": "",
+            "Gender": "Bread",
+            "MaritalStatus": "Married",
+            "Name": "Beard",
+            "PhilHealth": "",
+            "PhoneNumber": "",
+            "Sss": "",
+            "Tin": ""
+        },
+        "Username": "manager",
+        "WorkData": {
+            "Department": "",
+            "Division": "",
+            "EmployeeId": "1",
+            "HireDate": "01/01/2016",
+            "Location": "",
+            "ManagerId": "0",
+            "Role": ""
+        }
+    }
 ]
