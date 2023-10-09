@@ -38,5 +38,39 @@
             "ManagerId": "0",
             "Role": ""
         }
+    },
+    {
+        "Attendances": [],
+        "EmergencyData": {
+            "Address": "",
+            "EmailAddress": "",
+            "Name": "Tot",
+            "PhoneNumber": "",
+            "Relationship": "Mudder"
+        },
+        "Password": "Kentutan",
+        "Performances": [],
+        "PersonalData": {
+            "Address": "",
+            "DateOfBirth": "",
+            "DateOfHire": "",
+            "Gender": "tot",
+            "MaritalStatus": "Married",
+            "Name": "Ken",
+            "PhilHealth": "",
+            "PhoneNumber": "",
+            "Sss": "",
+            "Tin": ""
+        },
+        "Username": "Kentot",
+        "WorkData": {
+            "Department": "",
+            "Division": "",
+            "EmployeeId": "123123123",
+            "HireDate": "01/01/1990",
+            "Location": "",
+            "ManagerId": "0",
+            "Role": ""
+        }
     }
 ]

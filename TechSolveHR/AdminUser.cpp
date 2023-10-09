@@ -81,7 +81,7 @@ void AdminUser::CreateEmployeeMenu()
     std::cout << "║                                                            ║" << std::endl;
     std::cout << "║            User Type:                                      ║" << std::endl; // 24, 11
     std::cout << "║                                                            ║" << std::endl;
-    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║                     [A]dmin  [E]mployee                    ║" << std::endl;
     std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
     XY(24, 12);
     std::string userType;
@@ -132,6 +132,7 @@ void AdminUser::CreateEmployeeMenu()
     switch (userType[0])
     {
         case 'A':
+        case 'a':
         {
             AdminUser user;
             user.Username = username;
@@ -163,6 +164,7 @@ void AdminUser::CreateEmployeeMenu()
             break;
         }
         case 'E':
+        case 'e':
         {
             Employee user;
             user.Username = username;
@@ -184,7 +186,7 @@ void AdminUser::CreateEmployeeMenu()
             std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
             std::cout << "║                                                            ║" << std::endl;
             std::cout << "║                                                            ║" << std::endl;
-            std::cout << "║                    Employee created                        ║" << std::endl;
+            std::cout << "║                      Employee created                      ║" << std::endl;
             std::cout << "║                [Press any key to continue]                 ║" << std::endl;
             std::cout << "║                                                            ║" << std::endl;
             std::cout << "║                                                            ║" << std::endl;
@@ -219,7 +221,22 @@ void AdminUser::CreateEmployeeMenu()
 
 void AdminUser::EditEmployeeMenu()
 {
-    std::cout << "Enter employee ID";
+    Clear(ClearType::Screen);
+    std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+    std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+    std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+    std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+    std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+    std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║       Enter Employee ID:                                   ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+    XY(27, 10);
     std::string employeeId;
     std::cin >> employeeId;
 
@@ -229,7 +246,6 @@ void AdminUser::EditEmployeeMenu()
     if (!isAdmin && !isEmployee)
     {
         Clear(ClearType::Screen);
-        XY(0, 0);
         std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
         std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
         std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
@@ -263,7 +279,22 @@ void AdminUser::EditEmployeeMenu()
 
 void AdminUser::DeleteEmployeeMenu()
 {
-    std::cout << "Enter employee ID";
+    Clear(ClearType::Screen);
+    std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+    std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+    std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+    std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+    std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+    std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║       Enter Employee ID:                                   ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+    XY(27, 10);
     std::string employeeId;
     std::cin >> employeeId;
 

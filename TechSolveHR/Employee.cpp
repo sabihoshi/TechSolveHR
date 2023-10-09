@@ -141,6 +141,7 @@ void Employee::DocumentMenu()
 {
     while (true)
     {
+        Clear(ClearType::Screen);
         std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
         std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
         std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
