@@ -1,4 +1,4 @@
-﻿#pragma execution_character_set("utf-8")
+#pragma execution_character_set("utf-8")
 
 #include <iostream>
 #include <Windows.h>
@@ -198,33 +198,34 @@ void EmployeeMenu(Employee* employee)
                     - Logout
             */
 
-            Clear(ClearType::Screen);
-            std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
-            std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
-            std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
-            std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
-            std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
-            std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
-            std::cout << "║                                                            ║" << std::endl;
-            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-            std::cout << "║                |      Employee Menu     |                  ║" << std::endl;
-            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-            std::cout << "║                                                            ║" << std::endl;
-            std::cout << "║                                                            ║" << std::endl;
-            std::cout << "║               [1] - Update Personal Details                ║" << std::endl;
-            std::cout << "║               [2] - Apply for Leave                        ║" << std::endl;
-            std::cout << "║               [3] - Access Company Resources               ║" << std::endl;
-            std::cout << "║               [4] - Attendance Records                     ║" << std::endl;
-            std::cout << "║                                                            ║" << std::endl;
-            std::cout << "║               [5] - Back                                   ║" << std::endl;
-            std::cout << "║                                                            ║" << std::endl;
-            std::cout << "║                                                            ║" << std::endl;
-            std::cout << "║               >>                                           ║" << std::endl;
-            std::cout << "║                                                            ║" << std::endl;
-            std::cout << "║                                                            ║" << std::endl;
-            std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
-            XY(19, 19);
-            std::cin >> choice;
+        Clear(ClearType::Screen);
+        std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+        std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+        std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+        std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+        std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+        std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+        std::cout << "║                                                            ║" << std::endl;
+        std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+        std::cout << "║                |      Employee Menu     |                  ║" << std::endl;
+        std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+        std::cout << "║                                                            ║" << std::endl;
+        std::cout << "║                                                            ║" << std::endl;
+        std::cout << "║               [1] - Update Personal Details                ║" << std::endl;
+        std::cout << "║               [2] - Apply for Leave                        ║" << std::endl;
+        std::cout << "║               [3] - Access Company Resources               ║" << std::endl;
+        std::cout << "║               [4] - Attendance Records                     ║" << std::endl;
+        std::cout << "║               [5] - Overtime Records                       ║" << std::endl;
+        std::cout << "║                                                            ║" << std::endl;
+        std::cout << "║               [6] - Back                                   ║" << std::endl;
+        std::cout << "║                                                            ║" << std::endl;
+        std::cout << "║                                                            ║" << std::endl;
+        std::cout << "║               >>                                           ║" << std::endl;
+        std::cout << "║                                                            ║" << std::endl;
+        std::cout << "║                                                            ║" << std::endl;
+        std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+        XY(19, 20);
+        std::cin >> choice;
 
             switch (choice)
             {
@@ -267,6 +268,10 @@ void EmployeeMenu(Employee* employee)
                 Employee::Save();
                 break;
             case 4:
+                employee->AttendanceMenu();
+                Employee::Save();
+                break;
+            case 5:
                 /*
                     OVERTIME RECORDS
                     *** NOT FUNCTIONAL, PLACEHOLDER ONLY ***
@@ -276,7 +281,7 @@ void EmployeeMenu(Employee* employee)
                 employee->OvertimeMenu();
                 Employee::Save();
                 break;
-            case 5:
+            case 6:
                 return;
             default:
                 std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;

@@ -55,11 +55,13 @@ void AdminUser::Save()
 {
     if (!all) return;
 
-    const nlohmann::json j
-        = boolinq::from(*all)
-          .select([&](const auto& x) { return *x; })
-          .toStdVector();
+    std::vector<AdminUser> v;
+    for (const auto& admin : *all)
+    {
+        v.push_back(*admin);
+    }
 
+    const nlohmann::json j = v;
     std::ofstream ofsAdmins("admins.json");
     ofsAdmins << j.dump(4);
 }
@@ -139,7 +141,7 @@ void AdminUser::CreateEmployeeMenu()
             user.Password = password;
             user.EditInfoMenu();
 
-            All().push_back(&user);
+            All().push_back(new AdminUser(user));
             Save();
 
             Clear(ClearType::Screen);
@@ -171,8 +173,9 @@ void AdminUser::CreateEmployeeMenu()
             user.Password = password;
             user.EditInfoMenu();
 
-            Employee::All().push_back(&user);
+            Employee::All().push_back(new Employee(user));
             Employee::Save();
+
             Clear(ClearType::Screen);
             std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
             std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;

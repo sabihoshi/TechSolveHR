@@ -5,14 +5,19 @@
                 "Date": "2000-01-01",
                 "TimeIn": "7:00 AM",
                 "TimeOut": "5:00 PM"
+            },
+            {
+                "Date": "2002-03-01",
+                "TimeIn": "7:00 AM",
+                "TimeOut": "8:00 PM"
             }
         ],
         "EmergencyData": {
             "Address": "",
             "EmailAddress": "",
-            "Name": "Admin",
+            "Name": "Mama mo",
             "PhoneNumber": "",
-            "Relationship": ""
+            "Relationship": "Mother"
         },
         "Password": "admin",
         "Performances": [],
@@ -22,7 +27,7 @@
             "DateOfHire": "",
             "Gender": "",
             "MaritalStatus": "",
-            "Name": "Administrator",
+            "Name": "Admin",
             "PhilHealth": "",
             "PhoneNumber": "",
             "Sss": "",
