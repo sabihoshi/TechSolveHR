@@ -19,6 +19,35 @@
             "PhoneNumber": "",
             "Relationship": "Mother"
         },
+        "Leaves": [
+            {
+                "EndDate": "2023-03-18",
+                "StartDate": "2023-03-04",
+                "Status": "Pending",
+                "Type": "Sick"
+            },
+            {
+                "EndDate": "2023-03-19",
+                "StartDate": "2023-03-04",
+                "Status": "Pending",
+                "Type": "Vacation"
+            },
+            {
+                "EndDate": "yyyy-mm-dd",
+                "StartDate": "yyyy-mm-dd",
+                "Status": "Pending",
+                "Type": "Sick"
+            }
+        ],
+        "Overtimes": [
+            {
+                "Amount": "4000",
+                "Reason": "shitcocc",
+                "TimeIn": "0:56:28 ",
+                "TimeOut": "12:20:28",
+                "Type": ""
+            }
+        ],
         "Password": "admin",
         "Performances": [],
         "PersonalData": {
@@ -38,40 +67,6 @@
             "Department": "",
             "Division": "",
             "EmployeeId": "0",
-            "HireDate": "01/01/1990",
-            "Location": "",
-            "ManagerId": "0",
-            "Role": ""
-        }
-    },
-    {
-        "Attendances": [],
-        "EmergencyData": {
-            "Address": "",
-            "EmailAddress": "",
-            "Name": "Tot",
-            "PhoneNumber": "",
-            "Relationship": "Mudder"
-        },
-        "Password": "Kentutan",
-        "Performances": [],
-        "PersonalData": {
-            "Address": "",
-            "DateOfBirth": "",
-            "DateOfHire": "",
-            "Gender": "tot",
-            "MaritalStatus": "Married",
-            "Name": "Ken",
-            "PhilHealth": "",
-            "PhoneNumber": "",
-            "Sss": "",
-            "Tin": ""
-        },
-        "Username": "Kentot",
-        "WorkData": {
-            "Department": "",
-            "Division": "",
-            "EmployeeId": "123123123",
             "HireDate": "01/01/1990",
             "Location": "",
             "ManagerId": "0",

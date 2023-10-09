@@ -7,7 +7,7 @@
 class AdminUser : public Employee
 {
 public:
-    static std::vector<const AdminUser*>& All();
+    static std::vector<AdminUser*>& All();
 
     static void Save();
 
@@ -16,4 +16,6 @@ public:
     void EditEmployeeMenu();
 
     void DeleteEmployeeMenu();
+
+    void DocumentMenu();
 };

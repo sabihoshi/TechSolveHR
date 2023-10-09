@@ -1,4 +1,4 @@
-#pragma execution_character_set("utf-8")
+﻿#pragma execution_character_set("utf-8")
 
 #include <iostream>
 #include <Windows.h>
@@ -166,14 +166,14 @@ int main()
         {
             auto admin = boolinq::from(AdminUser::All()).first([&](const auto& e) { return e->Login(username, password); });
 
-            AdminMenu(const_cast<AdminUser*>(admin));
+            AdminMenu(admin);
             AdminUser::Save();
         }
         else
         {
             auto employee = boolinq::from(Employee::All()).first([&](const auto& e) { return e->Login(username, password); });
 
-            EmployeeMenu(const_cast<Employee*>(employee));
+            EmployeeMenu(employee);
             Employee::Save();
         }
     }
@@ -198,111 +198,119 @@ void EmployeeMenu(Employee* employee)
                     - Logout
             */
 
-        Clear(ClearType::Screen);
-        std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
-        std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
-        std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
-        std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
-        std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
-        std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
-        std::cout << "║                                                            ║" << std::endl;
-        std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-        std::cout << "║                |      Employee Menu     |                  ║" << std::endl;
-        std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-        std::cout << "║                                                            ║" << std::endl;
-        std::cout << "║                                                            ║" << std::endl;
-        std::cout << "║               [1] - Update Personal Details                ║" << std::endl;
-        std::cout << "║               [2] - Apply for Leave                        ║" << std::endl;
-        std::cout << "║               [3] - Access Company Resources               ║" << std::endl;
-        std::cout << "║               [4] - Attendance Records                     ║" << std::endl;
-        std::cout << "║               [5] - Overtime Records                       ║" << std::endl;
-        std::cout << "║                                                            ║" << std::endl;
-        std::cout << "║               [6] - Back                                   ║" << std::endl;
-        std::cout << "║                                                            ║" << std::endl;
-        std::cout << "║                                                            ║" << std::endl;
-        std::cout << "║               >>                                           ║" << std::endl;
-        std::cout << "║                                                            ║" << std::endl;
-        std::cout << "║                                                            ║" << std::endl;
-        std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
-        XY(19, 20);
-        std::cin >> choice;
+            Clear(ClearType::Screen);
+            std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+            std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+            std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+            std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+            std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+            std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+            std::cout << "║                                                            ║" << std::endl;
+            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+            std::cout << "║                |      Employee Menu     |                  ║" << std::endl;
+            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+            std::cout << "║                                                            ║" << std::endl;
+            std::cout << "║                                                            ║" << std::endl;
+            std::cout << "║               [1] - Update Personal Details                ║" << std::endl;
+            std::cout << "║               [2] - Apply for Leave                        ║" << std::endl;
+            std::cout << "║               [3] - Access Company Resources               ║" << std::endl;
+            std::cout << "║               [4] - Attendance Records                     ║" << std::endl;
+            std::cout << "║               [5] - Overtime Records                       ║" << std::endl;
+            std::cout << "║               [6] - View employees                         ║" << std::endl;
+            std::cout << "║               [7] - Change password                        ║" << std::endl;
+            std::cout << "║                                                            ║" << std::endl;
+            std::cout << "║               [8] - Back                                   ║" << std::endl;
+            std::cout << "║                                                            ║" << std::endl;
+            std::cout << "║                                                            ║" << std::endl;
+            std::cout << "║               >>                                           ║" << std::endl;
+            std::cout << "║                                                            ║" << std::endl;
+            std::cout << "║                                                            ║" << std::endl;
+            std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+            XY(19, 23);
+            std::cin >> choice;
 
             switch (choice)
             {
-            case 1:
-                /*
-                    PERSONAL INFORMATION
-                    *** NOT FUNCITONAL, PLACEHOLDER ONLY ***
-                    - Instantiates variables per case then pushes values into list
-                    - List is updated and overwrites data into a new XLSX or XML file (whichever is preferred)
+                case 1:
+                    /*
+                        PERSONAL INFORMATION
+                        *** NOT FUNCITONAL, PLACEHOLDER ONLY ***
+                        - Instantiates variables per case then pushes values into list
+                        - List is updated and overwrites data into a new XLSX or XML file (whichever is preferred)
 
-                    MISSING FEATURES:
-                    - use of up and down keys to move cursor to the next or previous field
-                */
-                employee->EditInfoMenu();
-                Employee::Save();
-                break;
-            case 2:
-                /*
-                    APPLY FOR LEAVE
-                    *** NOT FUNCTIONAL, PLACEHOLDER ONLY ***
-                    MISSING FEATURES:
-                    - use of up and down keys to move cursor to the next or previous field
-                */
-                employee->LeaveMenu();
-                Employee::Save();
-                break;
-            case 3:
+                        MISSING FEATURES:
+                        - use of up and down keys to move cursor to the next or previous field
+                    */
+                    employee->EditInfoMenu();
+                    Employee::Save();
+                    break;
+                case 2:
+                    /*
+                        APPLY FOR LEAVE
+                        *** NOT FUNCTIONAL, PLACEHOLDER ONLY ***
+                        MISSING FEATURES:
+                        - use of up and down keys to move cursor to the next or previous field
+                    */
+                    employee->LeaveMenu();
+                    Employee::Save();
+                    break;
+                case 3:
 
-                /*
-                    ACCESS COMPANY RESOURCES
-                    *** NOT FUNCTIONAL, PLACEHOLDER ONLY ***
-                    MISSING FEATURES:
-                    - user should input the necessary information being (name, department, etc.) of the employee to be assessed
-                    - user should be able to access the following:
-                        - Employee Assessment
-                        - Request Performance Feedback
-                    - use of up and down keys to move cursor to the next or previous field
-                */
-                employee->DocumentMenu();
-                Employee::Save();
-                break;
-            case 4:
-                employee->AttendanceMenu();
-                Employee::Save();
-                break;
-            case 5:
-                /*
-                    OVERTIME RECORDS
-                    *** NOT FUNCTIONAL, PLACEHOLDER ONLY ***
-                    MISSING FEATURES:
-                    - use of up and down keys to move cursor to the next or previous field
-                */
-                employee->OvertimeMenu();
-                Employee::Save();
-                break;
-            case 6:
-                return;
-            default:
-                std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
-                std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
-                std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
-                std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
-                std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
-                std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
-                std::cout << "║                                                            ║" << std::endl;
-                std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-                std::cout << "║                |    LOGIN SYSTEM MENU   |                  ║" << std::endl;
-                std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-                std::cout << "║                                                            ║" << std::endl;
-                std::cout << "║                                                            ║" << std::endl;
-                std::cout << "║                      Invalid Entry!                        ║" << std::endl;
-                std::cout << "║               [Press any key to try again]                 ║" << std::endl;
-                std::cout << "║                                                            ║" << std::endl;
-                std::cout << "║                                                            ║" << std::endl;
-                std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
-                _getch();
-                break;
+                    /*
+                        ACCESS COMPANY RESOURCES
+                        *** NOT FUNCTIONAL, PLACEHOLDER ONLY ***
+                        MISSING FEATURES:
+                        - user should input the necessary information being (name, department, etc.) of the employee to be assessed
+                        - user should be able to access the following:
+                            - Employee Assessment
+                            - Request Performance Feedback
+                        - use of up and down keys to move cursor to the next or previous field
+                    */
+                    employee->DocumentMenu();
+                    Employee::Save();
+                    break;
+                case 4:
+                    employee->AttendanceMenu();
+                    Employee::Save();
+                    break;
+                case 5:
+                    /*
+                        OVERTIME RECORDS
+                        *** NOT FUNCTIONAL, PLACEHOLDER ONLY ***
+                        MISSING FEATURES:
+                        - use of up and down keys to move cursor to the next or previous field
+                    */
+                    employee->OvertimeMenu();
+                    Employee::Save();
+                    break;
+                case 6:
+                    employee->ViewEmployeeMenu();
+                    break;
+                case 7:
+                    employee->ChangePasswordMenu();
+                    Employee::Save();
+                case 8:
+                    return;
+                default:
+                    std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+                    std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+                    std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+                    std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+                    std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+                    std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+                    std::cout << "║                                                            ║" << std::endl;
+                    std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+                    std::cout << "║                |    LOGIN SYSTEM MENU   |                  ║" << std::endl;
+                    std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+                    std::cout << "║                                                            ║" << std::endl;
+                    std::cout << "║                                                            ║" << std::endl;
+                    std::cout << "║                      Invalid Entry!                        ║" << std::endl;
+                    std::cout << "║               [Press any key to try again]                 ║" << std::endl;
+                    std::cout << "║                                                            ║" << std::endl;
+                    std::cout << "║                                                            ║" << std::endl;
+                    std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+                    _getch();
+                    break;
             }
         }
     }
@@ -328,108 +336,116 @@ void AdminMenu(AdminUser* admin)
         std::cout << "║               [1] - Create Employee                        ║" << std::endl;
         std::cout << "║               [2] - Edit Employee                          ║" << std::endl;
         std::cout << "║               [3] - Delete Employee                        ║" << std::endl;
+        std::cout << "║               [4] - View Employee                          ║" << std::endl;
         std::cout << "║                                                            ║" << std::endl;
-        std::cout << "║               [4] - Update Personal Details                ║" << std::endl;
-        std::cout << "║               [5] - Apply for Leave                        ║" << std::endl;
-        std::cout << "║               [6] - Access Company Resources               ║" << std::endl;
-        std::cout << "║               [7] - Attendance Records                     ║" << std::endl;
-        std::cout << "║               [8] - Overtime Records                       ║" << std::endl;
+        std::cout << "║               [5] - Change Password                        ║" << std::endl;
+        std::cout << "║               [6] - Update Personal Details                ║" << std::endl;
+        std::cout << "║               [7] - Apply for Leave                        ║" << std::endl;
+        std::cout << "║               [8] - Access Company Resources               ║" << std::endl;
+        std::cout << "║               [9] - Attendance Records                     ║" << std::endl;
+        std::cout << "║               [10] - Overtime Records                      ║" << std::endl;
         std::cout << "║                                                            ║" << std::endl;
-        std::cout << "║               [9] - Back                                   ║" << std::endl;
+        std::cout << "║               [11] - Back                                  ║" << std::endl;
         std::cout << "║                                                            ║" << std::endl;
         std::cout << "║                                                            ║" << std::endl;
         std::cout << "║               >>                                           ║" << std::endl;
         std::cout << "║                                                            ║" << std::endl;
         std::cout << "║                                                            ║" << std::endl;
         std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
-        XY(19, 25);
+        XY(19, 27);
 
         int choice;
         std::cin >> choice;
 
         switch (choice)
         {
-        case 1:
-            admin->CreateEmployeeMenu();
-            break;
-        case 2:
-            admin->EditEmployeeMenu();
-            break;
-        case 3:
-            admin->DeleteEmployeeMenu();
-            break;
-        case 4:
-            /*
-                PERSONAL INFORMATION
-                *** NOT FUNCITONAL, PLACEHOLDER ONLY ***
-                - Instantiates variables per case then pushes values into list
-                - List is updated and overwrites data into a new XLSX or XML file (whichever is preferred)
+            case 1:
+                admin->CreateEmployeeMenu();
+                break;
+            case 2:
+                admin->EditEmployeeMenu();
+                break;
+            case 3:
+                admin->DeleteEmployeeMenu();
+                break;
+            case 4:
+                admin->ViewEmployeeMenu();
+                break;
+            case 5:
+                admin->ChangePasswordMenu();
+                break;
+            case 6:
+                /*
+                    PERSONAL INFORMATION
+                    *** NOT FUNCITONAL, PLACEHOLDER ONLY ***
+                    - Instantiates variables per case then pushes values into list
+                    - List is updated and overwrites data into a new XLSX or XML file (whichever is preferred)
 
-                MISSING FEATURES:
-                - use of up and down keys to move cursor to the next or previous field
-            */
-            admin->EditInfoMenu();
-            AdminUser::Save();
-            break;
-        case 5:
-            /*
-                APPLY FOR LEAVE
-                MISSING FEATURES:
-                - use of up and down keys to move cursor to the next or previous field
-            */
-            admin->LeaveMenu();
-            AdminUser::Save();
-            break;
-        case 6:
+                    MISSING FEATURES:
+                    - use of up and down keys to move cursor to the next or previous field
+                */
+                admin->EditInfoMenu();
+                AdminUser::Save();
+                break;
+            case 7:
+                /*
+                    APPLY FOR LEAVE
+                    MISSING FEATURES:
+                    - use of up and down keys to move cursor to the next or previous field
+                */
+                admin->LeaveMenu();
+                AdminUser::Save();
+                break;
+            case 8:
 
-            /*
-                ACCESS COMPANY RESOURCES
-                MISSING FEATURES:
-                - user should input the necessary information being (name, department, etc.) of the employee to be assessed
-                - user should be able to access the following:
-                    - Employee Assessment
-                    - Request Performance Feedback
-                - use of up and down keys to move cursor to the next or previous field
-            */
-            admin->DocumentMenu();
-            AdminUser::Save();
-            break;
-        case 7:
-            admin->AttendanceMenu();
-            AdminUser::Save();
-            break;
-        case 8:
-            /*
-                OVERTIME RECORDS
-                MISSING FEATURES:
-                - use of up and down keys to move cursor to the next or previous field
-            */
-            admin->OvertimeMenu();
-            AdminUser::Save();
-            break;
-        case 9:
-            return;
-        default:
-            Clear(ClearType::Screen);
-            std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
-            std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
-            std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
-            std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
-            std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
-            std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
-            std::cout << "║                                                            ║" << std::endl;
-            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-            std::cout << "║                |    LOGIN SYSTEM MENU   |                  ║" << std::endl;
-            std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-            std::cout << "║                                                            ║" << std::endl;
-            std::cout << "║                                                            ║" << std::endl;
-            std::cout << "║                      Invalid Entry!                        ║" << std::endl;
-            std::cout << "║               [Press any key to try again]                 ║" << std::endl;
-            std::cout << "║                                                            ║" << std::endl;
-            std::cout << "║                                                            ║" << std::endl;
-            std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
-            _getch();
-            break;
+                /*
+                    ACCESS COMPANY RESOURCES
+                    MISSING FEATURES:
+                    - user should input the necessary information being (name, department, etc.) of the employee to be assessed
+                    - user should be able to access the following:
+                        - Employee Assessment
+                        - Request Performance Feedback
+                    - use of up and down keys to move cursor to the next or previous field
+                */
+                admin->DocumentMenu();
+                AdminUser::Save();
+                break;
+            case 9:
+                admin->AttendanceMenu();
+                AdminUser::Save();
+                break;
+            case 10:
+                /*
+                    OVERTIME RECORDS
+                    MISSING FEATURES:
+                    - use of up and down keys to move cursor to the next or previous field
+                */
+                admin->OvertimeMenu();
+                AdminUser::Save();
+                break;
+            case 11:
+                return;
+            default:
+                Clear(ClearType::Screen);
+                std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+                std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+                std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+                std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+                std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+                std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+                std::cout << "║                                                            ║" << std::endl;
+                std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+                std::cout << "║                |    LOGIN SYSTEM MENU   |                  ║" << std::endl;
+                std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+                std::cout << "║                                                            ║" << std::endl;
+                std::cout << "║                                                            ║" << std::endl;
+                std::cout << "║                      Invalid Entry!                        ║" << std::endl;
+                std::cout << "║               [Press any key to try again]                 ║" << std::endl;
+                std::cout << "║                                                            ║" << std::endl;
+                std::cout << "║                                                            ║" << std::endl;
+                std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+                _getch();
+                break;
         }
     }
 }

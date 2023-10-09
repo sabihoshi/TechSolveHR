@@ -101,9 +101,6 @@
     <None Include="..\Case Study - Documentation.pdf">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="attendances.json">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="employees.json">
       <Filter>Resource Files</Filter>
     </None>

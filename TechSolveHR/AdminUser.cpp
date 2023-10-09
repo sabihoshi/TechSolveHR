@@ -10,10 +10,10 @@
 
 namespace
 {
-    std::vector<const AdminUser*>* all;
+    std::vector<AdminUser*>* all;
 }
 
-std::vector<const AdminUser*>& AdminUser::All()
+std::vector<AdminUser*>& AdminUser::All()
 {
     if (all != nullptr) return *all;
 
@@ -23,7 +23,7 @@ std::vector<const AdminUser*>& AdminUser::All()
         u.Username = "admin";
         u.Password = "admin";
 
-        all = new std::vector<const AdminUser*>{&u};
+        all = new std::vector{&u};
 
         std::ofstream ofs("admins.json");
         ofs << nlohmann::json(boolinq::from(*all).select([&](const auto& x) { return *x; }).toStdVector()).dump(4);
@@ -31,7 +31,7 @@ std::vector<const AdminUser*>& AdminUser::All()
     }
 
     std::ifstream ifsEmployees("admins.json");
-    all = new std::vector<const AdminUser*>;
+    all = new std::vector<AdminUser*>;
 
     for (const auto& admin : nlohmann::json::parse(ifsEmployees).get<std::vector<AdminUser>>())
     {
@@ -271,12 +271,12 @@ void AdminUser::EditEmployeeMenu()
     if (isAdmin)
     {
         const auto admin = boolinq::from(All()).first([&](const AdminUser* user) { return user->WorkData.EmployeeId == employeeId; });
-        const_cast<AdminUser*>(admin)->EditInfoMenu();
+        admin->EditInfoMenu();
     }
     else
     {
         const auto employee = boolinq::from(Employee::All()).first([&](const Employee* user) { return user->WorkData.EmployeeId == employeeId; });
-        const_cast<Employee*>(employee)->EditInfoMenu();
+        employee->EditInfoMenu();
     }
 }
 
@@ -329,13 +329,132 @@ void AdminUser::DeleteEmployeeMenu()
     if (isAdmin)
     {
         const auto admin = boolinq::from(All()).first([&](const AdminUser* user) { return user->WorkData.EmployeeId == employeeId; });
-        auto _ = std::remove(All().begin(), All().end(), admin);
+        All().erase(std::remove(All().begin(), All().end(), admin), All().end());
         Save();
     }
     else
     {
         const auto employee = boolinq::from(Employee::All()).first([&](const Employee* user) { return user->WorkData.EmployeeId == employeeId; });
-        auto _ = std::remove(Employee::All().begin(), Employee::All().end(), employee);
+        Employee::All().erase(std::remove(Employee::All().begin(), Employee::All().end(), employee), Employee::All().end());
         Employee::Save();
+    }
+
+    Clear(ClearType::Screen);
+    std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+    std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+    std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+    std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+    std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+    std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║                 Employee has been deleted.                 ║" << std::endl;
+    std::cout << "║                 Press [Enter] to continue.                 ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "║                                                            ║" << std::endl;
+    std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+    _getch();
+}
+
+void AdminUser::DocumentMenu()
+{
+    while (true)
+    {
+        Clear(ClearType::Screen);
+        std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+        std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+        std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+        std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+        std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+        std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+        std::cout << "║                                                            ║" << std::endl;
+        std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+        std::cout << "║                                                            ║" << std::endl;
+        std::cout << "║               [1] - View Performance Feedback              ║" << std::endl;
+        std::cout << "║               [2] - Back                                   ║" << std::endl;
+        std::cout << "║                                                            ║" << std::endl;
+        std::cout << "║                     >                                      ║" << std::endl;
+        std::cout << "║                                                            ║" << std::endl;
+        std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+
+        XY(24, 12);
+        int documentOption;
+        std::cin >> documentOption;
+
+        switch (documentOption)
+        {
+            case 1:
+            {
+                Clear(ClearType::Screen);
+                XY(0, 0);
+                std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+                std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+                std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+                std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+                std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+                std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+                std::cout << "║                                                            ║" << std::endl;
+                std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+                std::cout << "║                                                            ║" << std::endl;
+                std::cout << "║                                                            ║" << std::endl;
+                std::cout << "║         Employee ID:                                       ║" << std::endl;
+                std::cout << "║                                                            ║" << std::endl;
+                std::cout << "║                                                            ║" << std::endl;
+                std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+
+                XY(23, 10);
+                std::string employeeId;
+                std::cin >> employeeId;
+
+                if (!boolinq::from(Employee::All()).any([&](const Employee* e) { return e->WorkData.EmployeeId == employeeId; }))
+                {
+                    Clear(ClearType::Screen);
+                    XY(0, 0);
+                    std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+                    std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+                    std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+                    std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+                    std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+                    std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+                    std::cout << "║                                                            ║" << std::endl;
+                    std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+                    std::cout << "║                                                            ║" << std::endl;
+                    std::cout << "║                                                            ║" << std::endl;
+                    std::cout << "║             Error! Unable to find that employee.           ║" << std::endl;
+                    std::cout << "║               Press [Enter] to continue.                   ║" << std::endl;
+                    std::cout << "║                                                            ║" << std::endl;
+                    std::cout << "║                                                            ║" << std::endl;
+                    std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+                    _getch();
+                    continue;
+                }
+                auto* employee = boolinq::from(Employee::All()).first([&](const Employee* e) { return e->WorkData.EmployeeId == employeeId; });
+                employee->ViewPerformances();
+
+                break;
+            }
+            case 2:
+                return;
+            default:
+                std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
+                std::cout << "║   ____    _    ____  _   _ ____   ___    _    ____  ____   ║" << std::endl;
+                std::cout << "║  |  _ \\  / \\  / ___|| | | | __ ) / _ \\  / \\  |  _ \\|  _ \\  ║" << std::endl;
+                std::cout << "║  | | | |/ _ \\ \\___ \\| |_| |  _ \\| | | |/ _ \\ | |_) | | | | ║" << std::endl;
+                std::cout << "║  | |_| / ___ \\ ___) |  _  | |_) | |_| / ___ \\|  _ <| |_| | ║" << std::endl;
+                std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
+                std::cout << "║                                                            ║" << std::endl;
+                std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
+                std::cout << "║                                                            ║" << std::endl;
+                std::cout << "║                                                            ║" << std::endl;
+                std::cout << "║                      Invalid Entry!                        ║" << std::endl;
+                std::cout << "║               [Press any key to try again]                 ║" << std::endl;
+                std::cout << "║                                                            ║" << std::endl;
+                std::cout << "║                                                            ║" << std::endl;
+                std::cout << "╚════════════════════════════════════════════════════════════╝" << std::endl;
+                _getch();
+                break;
+        }
     }
 }

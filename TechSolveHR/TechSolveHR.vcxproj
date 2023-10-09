@@ -160,7 +160,6 @@
   <ItemGroup>
     <None Include="..\Case Study - Documentation.pdf" />
     <None Include="admins.json" />
-    <None Include="attendances.json" />
     <None Include="ClassDiagram.cd" />
     <None Include="employees.json" />
   </ItemGroup>

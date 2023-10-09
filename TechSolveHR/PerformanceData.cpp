@@ -15,14 +15,7 @@ void PerformanceData::PrintData()
 	std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
 	std::cout << "║                                                            ║" << std::endl;
 	std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-	std::cout << "║        ╔═══════════════════════════════════════════╗       ║" << std::endl;
-	std::cout << "║        ║           Employee Information            ║       ║" << std::endl;
-	std::cout << "║        ║                                           ║       ║" << std::endl;
-	std::cout << "║        ║       Name:                               ║       ║" << std::endl;
-	std::cout << "║        ║ Department:                               ║       ║" << std::endl;
-	std::cout << "║        ║    Manager:                               ║       ║" << std::endl;
-	std::cout << "║        ║                                           ║       ║" << std::endl;
-	std::cout << "║        ╚═══════════════════════════════════════════╝       ║" << std::endl;
+	std::cout << "║                ║   Employee Performance   ║                ║" << std::endl;
 	std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
 	std::cout << "║  Job Knowledge             ║                               ║" << std::endl;
 	std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
@@ -34,7 +27,7 @@ void PerformanceData::PrintData()
 	std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
 	std::cout << "║  Communication Skills      ║                               ║" << std::endl;
 	std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-	std::cout << "║  Overall Rating:           ║                               ║" << std::endl;
+	std::cout << "║  Overall Rating            ║                               ║" << std::endl;
 	std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
 	std::cout << "║ Comments:                                                  ║" << std::endl;
 	std::cout << "║                                                            ║" << std::endl;
@@ -59,5 +52,5 @@ void PerformanceData::EditData()
 		&Productivity, &Communication, &Overall, &Comments,
 	};
 
-	EditableData::EditData(data, 2, 31, 17, 29);
+	EditableData::EditData(data, 2, 31, 10, 29);
 }

@@ -17,7 +17,7 @@ void AttendanceData::PrintData()
     std::cout << "║  |____/_/   \\_\\____/|_| |_|____/ \\___/_/   \\_\\_| \\_\\____/  ║" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
     std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
-    std::cout << "║                 |    OVERTIME RECORDS   |                  ║" << std::endl;
+    std::cout << "║                 |    ATTENDANCE RECORDS   |                ║" << std::endl;
     std::cout << "╠════════════════════════════════════════════════════════════╣" << std::endl;
     std::cout << "║                                                            ║" << std::endl;
     std::cout << "║                 Date:                                      ║" << std::endl;
@@ -35,6 +35,10 @@ void AttendanceData::PrintData()
 void AttendanceData::EditData()
 {
     PrintData();
+
+    Date = CurrentDate();
+    TimeIn = CurrentTime();
+    TimeOut = CurrentTime();
 
     const std::vector data = {
         &Date, &TimeIn, &TimeOut

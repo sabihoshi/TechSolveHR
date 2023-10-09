@@ -1,3 +1,146 @@
 [
-   
+    {
+        "Attendances": [],
+        "EmergencyData": {
+            "Address": "Mirage Palace",
+            "EmailAddress": "tot@gmail.com",
+            "Name": "Bagel",
+            "PhoneNumber": "9239884582",
+            "Relationship": "Married"
+        },
+        "Leaves": [],
+        "Overtimes": [],
+        "Password": "manager",
+        "Performances": [],
+        "PersonalData": {
+            "Address": "Mirage Palace",
+            "DateOfBirth": "1995-03-07",
+            "DateOfHire": "2016-08-23",
+            "Gender": "Bread",
+            "MaritalStatus": "Married",
+            "Name": "Beard",
+            "PhilHealth": "",
+            "PhoneNumber": "",
+            "Sss": "",
+            "Tin": ""
+        },
+        "Username": "manager",
+        "WorkData": {
+            "Department": "",
+            "Division": "",
+            "EmployeeId": "1",
+            "HireDate": "01/01/2016",
+            "Location": "",
+            "ManagerId": "0",
+            "Role": ""
+        }
+    },
+    {
+        "Attendances": [],
+        "EmergencyData": {
+            "Address": "",
+            "EmailAddress": "",
+            "Name": "",
+            "PhoneNumber": "",
+            "Relationship": ""
+        },
+        "Leaves": [],
+        "Overtimes": [],
+        "Password": "employee1",
+        "Performances": [],
+        "PersonalData": {
+            "Address": "",
+            "DateOfBirth": "",
+            "DateOfHire": "",
+            "Gender": "",
+            "MaritalStatus": "",
+            "Name": "",
+            "PhilHealth": "",
+            "PhoneNumber": "",
+            "Sss": "",
+            "Tin": ""
+        },
+        "Username": "employee1",
+        "WorkData": {
+            "Department": "",
+            "Division": "",
+            "EmployeeId": "2",
+            "HireDate": "01/01/1990",
+            "Location": "",
+            "ManagerId": "1",
+            "Role": ""
+        }
+    },
+    {
+        "Attendances": [],
+        "EmergencyData": {
+            "Address": "",
+            "EmailAddress": "",
+            "Name": "",
+            "PhoneNumber": "",
+            "Relationship": ""
+        },
+        "Leaves": [],
+        "Overtimes": [],
+        "Password": "employee2",
+        "Performances": [],
+        "PersonalData": {
+            "Address": "",
+            "DateOfBirth": "",
+            "DateOfHire": "",
+            "Gender": "",
+            "MaritalStatus": "",
+            "Name": "",
+            "PhilHealth": "",
+            "PhoneNumber": "",
+            "Sss": "",
+            "Tin": ""
+        },
+        "Username": "employee2",
+        "WorkData": {
+            "Department": "",
+            "Division": "",
+            "EmployeeId": "3",
+            "HireDate": "01/01/1990",
+            "Location": "",
+            "ManagerId": "1",
+            "Role": ""
+        }
+    },
+    {
+        "Attendances": [],
+        "EmergencyData": {
+            "Address": "",
+            "EmailAddress": "",
+            "Name": "",
+            "PhoneNumber": "",
+            "Relationship": ""
+        },
+        "Leaves": [],
+        "Overtimes": [],
+        "Password": "employee3",
+        "Performances": [],
+        "PersonalData": {
+            "Address": "",
+            "DateOfBirth": "",
+            "DateOfHire": "",
+            "Gender": "",
+            "MaritalStatus": "",
+            "Name": "",
+            "PhilHealth": "",
+            "PhoneNumber": "",
+            "Sss": "",
+            "Tin": ""
+        },
+        "Username": "employee3",
+        "WorkData": {
+            "Department": "",
+            "Division": "",
+            "EmployeeId": "4",
+            "HireDate": "01/01/1990",
+            "Location": "",
+            "ManagerId": "1",
+            "Role": ""
+        }
+    }
 ]

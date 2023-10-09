@@ -38,6 +38,9 @@ void OvertimeData::EditData()
 {
     PrintData();
 
+    TimeIn = CurrentTime();
+    TimeOut = CurrentTime();
+
     const std::vector data = {
         &TimeIn, &TimeOut, &Amount, &Type, &Reason
     };

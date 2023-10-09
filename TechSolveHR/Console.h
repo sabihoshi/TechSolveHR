@@ -2,7 +2,9 @@
 #pragma execution_character_set("utf-8")
 
 #include <algorithm>
+#include <chrono>
 #include <conio.h>
+#include <iomanip>
 #include <iostream>
 #include <iterator>
 #include <sstream>
@@ -365,4 +367,26 @@ inline void CinReset()
 #undef max
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 #pragma pop_macro("max")
+}
+
+inline std::string CurrentDate()
+{
+    std::tm currentTime;
+    const std::time_t now = time(nullptr);
+    localtime_s(&currentTime, &now);
+    return
+        std::to_string(currentTime.tm_year + 1900) + "-" +
+        std::to_string(currentTime.tm_mon + 1) + "-" +
+        std::to_string(currentTime.tm_mday);
+}
+
+inline std::string CurrentTime()
+{
+    std::tm currentTime;
+    const std::time_t now = time(nullptr);
+    localtime_s(&currentTime, &now);
+    return
+        std::to_string(currentTime.tm_hour) + ":" +
+        std::to_string(currentTime.tm_min) + ":" +
+        std::to_string(currentTime.tm_sec) + " ";
 }

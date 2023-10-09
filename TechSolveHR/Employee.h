@@ -16,7 +16,7 @@ class Employee : public User
     NLOHMANN_DEFINE_TYPE_INTRUSIVE(Employee,
         Username, Password,
         PersonalData, EmergencyData, WorkData,
-        Performances, Attendances)
+        Leaves, Overtimes, Performances, Attendances)
 
 public:
     PersonalData PersonalData;
@@ -27,7 +27,7 @@ public:
     std::vector<PerformanceData> Performances;
     std::vector<AttendanceData> Attendances;
 
-    static std::vector<const Employee*>& All();
+    static std::vector<Employee*>& All();
 
     static void Save();
 
@@ -41,6 +41,10 @@ public:
     void LeaveMenu();
 
     void PrintLeaveData();
+
+    void ViewEmployeeMenu();
+
+    void ViewPerformances();
 
     void DocumentMenu();
 
